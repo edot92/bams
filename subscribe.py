@@ -41,8 +41,9 @@ if __name__ == "__main__":
     print("Connecting to broker...")
 
     client.connect("bbta3.bppt.go.id", 9621)
+
     try:
-        client.username_pw_set(os.environ['MQ_USER'], os.environ['MQ_PWD'])
+        client.username_pw_set('bams', 'bams.pwd')
     except KeyError:
         print('Silahkan tambah env. untuk MQ_USER dan/atau MQ_PWD')
         sys.exit()
