@@ -16,19 +16,22 @@ def on_connect(client, userdata, flags, rc):
 def on_message(client, userdata, msg):
     n = 8  # split every 8 characters
     node = msg.payload[0:3].decode('ascii')
-    timestamp = int(msg.payload[3:11], 16)
+    timestamp = int(msg.payload[3:11], 16) * 1000  # dalam satuan ms
 
     sensor = [struct.unpack('!f', bytes.fromhex(msg.payload[i:i+n].decode('ascii')))[0]
            for i in range(11, len(msg.payload[11:]) + n, n)]
 
     if node == "sb1" or node == "sb2":
-        acc = sensor[:-3]
-        ane1 = sensor[-1]
-        ane2 = sensor[-2]
-        ane3 = sensor[-3]
+        acc = sensor[:-3]  # dalam bentuk List
+        ane1 = sensor[-1]  # dalam bentuk Scalar
+        ane2 = sensor[-2]  # dalam bentuk Scalar
+        ane3 = sensor[-3]  # dalam bentuk Scalar
 
-    print(node)
-    print(sensor, '\n')
+    else :
+        acc = sensor  # dalam bentuk List
+
+    print(node, timestamp)
+    print(acc, '\n')
 
 
 if __name__ == "__main__":
