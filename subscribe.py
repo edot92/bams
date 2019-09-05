@@ -29,9 +29,9 @@ def on_message(client, userdata, msg):
 
     else :
         acc = sensor  # dalam bentuk List
-        ane1 = 0
-        ane2 = 0
-        ane3 = 0
+        ane1 = 0  # dalam bentuk Scalar
+        ane2 = 0  # dalam bentuk Scalar
+        ane3 = 0  # dalam bentuk Scalar
 
     print(node, timestamp)
     print(acc, '\n')
