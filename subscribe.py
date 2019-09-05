@@ -52,8 +52,8 @@ def on_message(client, userdata, msg):
             ane2 = 0  # dalam bentuk Scalar
             ane3 = 0  # dalam bentuk Scalar
 
-        print(node, timestamp)
-        print(acc, '\n')
+        print(acc)
+        print(node, timestamp, len(sensor), '\n')
 
 
 if __name__ == "__main__":
