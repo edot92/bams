@@ -1,0 +1,19 @@
+{
+  "name": "bams",
+  "version": "1.0.0",
+  "description": "Repository pengembangan proses data Bridge Aeroelastic Monitoring System",
+  "main": "subscribe.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "bams",
+    "aeroelastic",
+    "bridge"
+  ],
+  "author": "Arizal Akbar Zikri",
+  "license": "ISC",
+  "dependencies": {
+    "async-mqtt": "^2.4.2"
+  }
+}
