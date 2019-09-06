@@ -1,4 +1,8 @@
 const MQTT = require("async-mqtt")
+const conn = require("./src/database/connection")
+const db = require("./src/database")
+
+const bucket = conn.cluster.openBucket("bbta3_bams_suramadu_test")
 
 const client = MQTT.connect("mqtt://bbta3.bppt.go.id:9621", {
     username: process.env.BAMS_USER,
@@ -19,6 +23,8 @@ const onMessage = async (topic) => {
                 const sensor_item_raw = topic.payload.toString().slice(index, index + n)
                 const sensor_item = Buffer.from(sensor_item_raw, 'hex').readFloatBE(0)
                 sensor.push(sensor_item)
+
+                db.insertSensor(timestamp, bucket)
             }
 
             console.log(node, timestamp, sensor.length, '\n')
