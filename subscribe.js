@@ -1,8 +1,8 @@
 const MQTT = require("async-mqtt")
 
 const client = MQTT.connect("mqtt://bbta3.bppt.go.id:9621", {
-    username: process.env.MQ_USER,
-    password: process.env.MQ_PWD
+    username: process.env.BAMS_USER,
+    password: process.env.BAMS_PWD
 })
 
 const n = 8  // pisah setiap 8 karakter
