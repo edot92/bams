@@ -17,7 +17,7 @@ const onMessage = async (topic) => {
 
             for (let index = 11; index <= raw_sensor.length + n; index += n) {
                 const sensor_item_raw = topic.payload.toString().slice(index, index + n)
-                const sensor_item = Buffer.from(sensor_item_raw,'hex').readFloatBE(0)
+                const sensor_item = Buffer.from(sensor_item_raw, 'hex').readFloatBE(0)
                 sensor.push(sensor_item)
             }
 
