@@ -19,19 +19,16 @@ const onMessage = async (topic) => {
             const timestamp = parseInt(topic.payload.toString().slice(3, 11), 16) * 1000
             const raw_sensor = topic.payload.toString().slice(11, topic.payload.toString().length)
 
-            let sensor = []
             let acc1 = []
             let acc2 = []
             let acc3 = []
-            let ane1 = 0
-            let ane2 = 0
-            let ane3 = 0
+            let ane1 = null
+            let ane2 = null
+            let ane3 = null
 
             for (let index = 11; index <= raw_sensor.length + n; index += n) {
                 const sensor_item_raw = topic.payload.toString().slice(index, index + n)
                 const sensor_item = Buffer.from(sensor_item_raw, 'hex').readFloatBE(0)
-
-                sensor.push(sensor_item)
 
                 if (node == "sb2") {
                     if (index >= 11 && index <= 803) {
@@ -81,7 +78,7 @@ const onMessage = async (topic) => {
                 // db.insertSensor(timestamp + waktu_ms, bucket, payload)
                 // waktu_ms += 10  // dalam satuan ms, 1 s ada 100 data getaran
             }
-            console.log(sensor)
+
             console.log(node, timestamp, sensor.length, acc1.length, acc2.length, acc3.length, ane1, ane2, ane3, '\n')
         }
     } catch (error) {
