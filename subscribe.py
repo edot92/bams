@@ -52,7 +52,7 @@ def on_message(client, userdata, msg):
             ane2 = 0  # dalam bentuk Scalar
             ane3 = 0  # dalam bentuk Scalar
 
-        print(acc)
+        print(sensor)
         print(node, timestamp, len(sensor), '\n')
 
 
@@ -67,7 +67,7 @@ if __name__ == "__main__":
     client.connect("bbta3.bppt.go.id", 9621)
 
     try:
-        client.username_pw_set(os.getenv('MQ_USER'), os.getenv('MQ_PWD'))
+        client.username_pw_set(os.getenv('BAMS_USER'), os.getenv('BAMS_PWD'))
     except KeyError:
         print('Silahkan tambah env. untuk MQ_USER dan/atau MQ_PWD')
         sys.exit()
