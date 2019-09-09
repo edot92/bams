@@ -1,6 +1,7 @@
 const MQTT = require("async-mqtt")
 const conn = require("./src/database/connection")
 const db = require("./src/database")
+const d2c = require("./src/helpers/deg2compas")
 
 const bucket = conn.cluster.openBucket("bbta3_bams_suramadu_test")
 
@@ -10,7 +11,7 @@ const client = MQTT.connect("mqtt://bbta3.bppt.go.id:9621", {
 })
 
 const n = 8  // pisah setiap 8 karakter
-const waktu_ms = 0  // satuan milli second
+let waktu_ms = 0  // satuan milli second
 const onMessage = async (topic) => {
     try {
         await client.subscribe("BAMS")
@@ -64,22 +65,27 @@ const onMessage = async (topic) => {
                     }
                 }
 
-                // let payload = {
-                //     "acc1": payload.acc1,
-                //     "acc2": payload.acc2,
-                //     "acc3": payload.acc3,
-                //     "arah": payload.arah,
-                //     "grup_kec": payload.grup_kec,
-                //     "kecepatan": payload.kecepatan,
-                //     "kompas": payload.kompas,
-                //     "node": payload.node
-                // }
+                let payload = null
 
-                // db.insertSensor(timestamp + waktu_ms, bucket, payload)
-                // waktu_ms += 10  // dalam satuan ms, 1 s ada 100 data getaran
+                for (let i = 0; i < 100; i++) {
+                    payload = {
+                        "acc1": acc1[i],
+                        "acc2": acc2[i],
+                        "acc3": node == "sb2" ? acc3[i] : null,
+                        "arah": ane2,
+                        "grup_kec": ane1,
+                        "kecepatan": ane1,
+                        "kompas": d2c.toCompas(ane2),
+                        "sudut_serang": ane3,
+                        "node": node,
+                        "ts": timestamp + waktu_ms
+                    }
+
+                    // db.insertSensor(timestamp + waktu_ms, bucket, payload)
+                    console.log(payload)
+                    waktu_ms += 10  // dalam satuan ms, 1 s ada 100 data getaran
+                }
             }
-
-            console.log(node, timestamp, sensor.length, acc1.length, acc2.length, acc3.length, ane1, ane2, ane3, '\n')
         }
     } catch (error) {
         console.log(error)
