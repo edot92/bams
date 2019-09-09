@@ -64,29 +64,27 @@ const onMessage = async (topic) => {
                         acc2.push(sensor_item)
                     }
                 }
+            }
 
-                let payload = null
+            let payload = null
 
-                for (let i = 0; i < 100; i++) {
-                    payload = {
-                        "acc1": acc1.length > 0 ? acc1[i] : null,
-                        "acc2": acc2.length > 0 ? acc2[i] : null,
-                        "acc3": node == "sb2" && acc3.length > 0 ? acc3[i] : null,
-                        "arah": ane2,
-                        "grup_kec": ane1,
-                        "kecepatan": ane1,
-                        "kompas": d2c.toCompas(ane2),
-                        "sudut_serang": ane3,
-                        "node": node,
-                        "ts": timestamp + waktu_ms
-                    }
-
-                    // db.insertSensor(timestamp + waktu_ms, bucket, payload)
-                    console.log(payload)
-                    waktu_ms += 10  // dalam satuan ms, 1 s ada 100 data getaran
+            for (let i = 0; i < 100; i++) {
+                payload = {
+                    "ts": timestamp + waktu_ms,
+                    "node": node,
+                    "acc1": acc1.length > 0 ? acc1[i] : null,
+                    "acc2": acc2.length > 0 ? acc2[i] : null,
+                    "acc3": node == "sb2" && acc3.length > 0 ? acc3[i] : null,
+                    "arah": ane2,
+                    "grup_kec": ane1,
+                    "kecepatan": ane1,
+                    "kompas": ane2 ? d2c.toCompas(ane2) : null,
+                    "sudut_serang": ane3,
                 }
 
-                console.log(node, acc2.length, '\n')
+                // db.insertSensor(timestamp + waktu_ms, bucket, payload)
+                console.log(payload)
+                waktu_ms += 10  // dalam satuan ms, 1 s ada 100 data getaran
             }
         }
     } catch (error) {
