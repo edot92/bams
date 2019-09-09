@@ -69,9 +69,9 @@ const onMessage = async (topic) => {
 
                 for (let i = 0; i < 100; i++) {
                     payload = {
-                        "acc1": acc1[i],
-                        "acc2": acc2[i],
-                        "acc3": node == "sb2" ? acc3[i] : null,
+                        "acc1": acc1.length > 0 ? acc1[i] : null,
+                        "acc2": acc2.length > 0 ? acc2[i] : null,
+                        "acc3": node == "sb2" && acc3.length > 0 ? acc3[i] : null,
                         "arah": ane2,
                         "grup_kec": ane1,
                         "kecepatan": ane1,
@@ -85,6 +85,8 @@ const onMessage = async (topic) => {
                     console.log(payload)
                     waktu_ms += 10  // dalam satuan ms, 1 s ada 100 data getaran
                 }
+
+                console.log(node, acc2.length, '\n')
             }
         }
     } catch (error) {
