@@ -5,7 +5,7 @@ const d2c = require("./src/helpers/deg2compas")
 
 const bucket = conn.cluster.openBucket("bbta3_bams_suramadu_test")
 
-const client = MQTT.connect("mqtt://bbta3.bppt.go.id:9621", {
+const client = MQTT.connect("mqtt://" + process.env.BAMS_HOST_MQTT + ":9621", {
     username: process.env.BAMS_USER,
     password: process.env.BAMS_PWD
 })
