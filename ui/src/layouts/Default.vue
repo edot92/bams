@@ -40,7 +40,7 @@
         content-class="bg-grey-10">
         <q-scroll-area class="fit">
           <q-list padding class="text-white">
-            <q-item active clickable v-ripple>
+            <q-item :to="{name: 'stream'}" exact clickable v-ripple>
               <q-item-section avatar>
                 <q-icon name="eva-activity-outline" />
               </q-item-section>
@@ -50,7 +50,7 @@
               </q-item-section>
             </q-item>
 
-            <q-item clickable v-ripple>
+            <q-item :to="{name: 'data'}" clickable v-ripple>
               <q-item-section avatar>
                 <q-icon name="eva-monitor-outline" />
               </q-item-section>
