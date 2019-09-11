@@ -3,7 +3,7 @@
     <q-card style="width: 350px">
       <q-bar>
         <q-icon name="eva-lock-outline" />
-        <div>Otentikasi Pengguna</div>
+        <div>Otentikasi BAMS</div>
       </q-bar>
 
       <q-card-section>
