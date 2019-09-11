@@ -1,7 +1,8 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout view="hHh Lpr lff">
     <q-header elevated class="bg-gradient-primary">
       <q-toolbar>
+        <q-btn flat @click="drawer = !drawer" round dense icon="eva-menu-outline" />
         <q-toolbar-title>
           BAMS BBTA3
         </q-toolbar-title>
@@ -13,20 +14,6 @@
           @click="goToTentang()"
           aria-label="Tentang">
           <q-icon name="eva-question-mark-circle-outline" />
-          <q-badge floating color="grey-9">{{kunjungan}}</q-badge>
-        </q-btn>
-
-        <q-btn
-          flat
-          dense
-          round
-          @click="showDialogPict = !showDialogPict"
-          aria-label="Profile">
-          <q-avatar size="24px" v-if="user.hasAvatar">
-            <img :src="user.urlAvatar" />
-          </q-avatar>
-
-          <q-icon name="eva-person-outline" v-else />
         </q-btn>
 
         <q-btn
@@ -40,24 +27,41 @@
       </q-toolbar>
     </q-header>
 
-    <q-dialog v-model="showDialogPict" persistent>
-      <q-card>
-        <q-bar>
-          <q-icon name="eva-save" />
-            <div>Ganti Profile Picture</div>
+    <q-drawer
+        v-model="drawer"
+        show-if-above
+        :mini="miniState"
+        @mouseover="miniState = false"
+        @mouseout="miniState = true"
+        mini-to-overlay
+        :width="180"
+        :breakpoint="500"
+        bordered
+        content-class="bg-grey-10">
+        <q-scroll-area class="fit">
+          <q-list padding class="text-white">
+            <q-item active clickable v-ripple>
+              <q-item-section avatar>
+                <q-icon name="eva-activity-outline" />
+              </q-item-section>
 
-            <q-space />
+              <q-item-section>
+                STREAM
+              </q-item-section>
+            </q-item>
 
-            <q-btn dense flat icon="eva-close-outline" @click="showDialogPict = !showDialogPict">
-              <q-tooltip>Tutup</q-tooltip>
-            </q-btn>
-        </q-bar>
+            <q-item clickable v-ripple>
+              <q-item-section avatar>
+                <q-icon name="eva-monitor-outline" />
+              </q-item-section>
 
-        <q-card-section>
-          <q-uploader :factory="factoryFn" auto-upload dark />
-        </q-card-section>
-      </q-card>
-    </q-dialog>
+              <q-item-section>
+                DATA
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-scroll-area>
+      </q-drawer>
 
     <q-page-container>
       <router-view />
@@ -70,6 +74,8 @@ export default {
   name: 'Default',
   data () {
     return {
+      drawer: false,
+      miniState: true,
       storageRef: null,
       showDialogPict: false,
       user: {
@@ -83,10 +89,8 @@ export default {
     this.$firebase.auth().onAuthStateChanged(user => {
       if (user) {
         this.user.id = user.uid
-        this.getAvatar()
       }
     })
-    this.storageRef = this.$firebase.storage().ref()
   },
   methods: {
     async cobaKeluar() {
@@ -97,49 +101,11 @@ export default {
         console.log(err.message)
       }
     },
-    async factoryFn(file) {
-      const pictRef = this.storageRef.child(`smk/${this.user.id}`)
-      const pict = file[0]
-
-      try {
-        await pictRef.put(pict)
-        this.getAvatar()
-
-        return {
-          url: 'data:image/png;base64,',
-          method: 'GET'
-        }
-      }
-      catch (err) {
-        console.log(err.message)
-        this.user.hasAvatar = false
-
-        return {
-          url: '',
-          method: 'GET'
-        }
-      }
-    },
-    async getAvatar() {
-      try {
-        this.user.urlAvatar = await this.storageRef.child(`smk/${this.user.id}`).getDownloadURL()
-
-        if (this.user.urlAvatar) this.user.hasAvatar = true
-      } catch (err) {
-        console.log(err.message)
-        this.user.hasAvatar = false
-      }
-    },
     goToTentang() {
       if(this.$route.path != '/tentang') this.$store.commit('counter/counterMutation')
       this.$router.push('/tentang')
     }
   },
-  computed: {
-    kunjungan: function() {
-      return this.$store.getters['counter/counterGetter']
-    }
-  }
 }
 </script>
 
