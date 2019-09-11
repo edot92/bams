@@ -3,7 +3,7 @@
     <q-header elevated class="bg-gradient-primary">
       <q-toolbar>
         <q-toolbar-title>
-          Aplikasi Siswa SMK
+          BAMS BBTA3
         </q-toolbar-title>
 
         <q-btn
