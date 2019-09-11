@@ -16,7 +16,7 @@
               Sedang memuat...
               <q-spinner-cube color="primary" size="2em" />
             </div>
-            <canvas id="streamChart" class="full-width" style="max-height: 550px;" v-else></canvas>
+            <canvas id="streamChart" class="full-width" style="max-height: 580px;"></canvas>
           </q-card-section>
         </q-card>
       </div>
@@ -36,7 +36,7 @@ export default {
   data() {
     return {
       loading: true,
-      maxData: 100,
+      maxData: 500,
       mChart: null,
       client: null
     };
@@ -47,7 +47,7 @@ export default {
       password: process.env.BAMS_PWD
     });
 
-    this.streamData();
+    this.streamData()
   },
   destroyed() {
     this.client.end();
@@ -114,13 +114,15 @@ export default {
       let waktu_ms = 0; // satuan milli second
       // let that = this;
 
+      this.client.on("connect", () => {
+        this.drawTheChart()
+      })
+
       this.client.on("packetreceive", async topic => {
         try {
-          this.loading = false;
           await this.client.subscribe("BAMS");
           if (topic.payload) {
-            this.drawTheChart();
-
+            this.loading = false
             const node = topic.payload.toString().slice(0, 3);
             const timestamp =
               parseInt(topic.payload.toString().slice(3, 11), 16) * 1000;
@@ -179,30 +181,16 @@ export default {
               }
             }
 
-            let payload = null;
-
             for (let i = 0; i < 100; i++) {
-              payload = {
-                ts: timestamp + waktu_ms,
-                node: node,
-                acc1: acc1.length > 0 ? acc1[i] : null,
-                acc2: acc2.length > 0 ? acc2[i] : null,
-                acc3: node == "sb2" && acc3.length > 0 ? acc3[i] : null,
-                arah: ane2,
-                grup_kec: ane1,
-                kecepatan: ane1,
-                kompas: ane2 ? d2c.toCompas(ane2) : null,
-                sudut_serang: ane3
-              };
-
-              if (this.mChart.data.labels.length > this.maxBar)
+              if (this.mChart.data.labels.length > this.maxData)
                 this.mChart.data.labels.shift();
               this.mChart.data.labels.push(timestamp + waktu_ms);
 
               this.mChart.data.datasets.forEach(dataset => {
-                if (dataset.data.length > this.maxBar) {
+                if (dataset.data.length > this.maxData) {
                   dataset.data.shift();
                 }
+
                 if (dataset.label == "Akselerometer 1") {
                   dataset.data.push(acc1[i]);
                 } else {
