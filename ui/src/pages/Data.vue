@@ -1,6 +1,6 @@
 <template>
   <q-page padding>
-    HALAMAN DATA
+    FITUR SEMENTARA TIDAK AKTIF
   </q-page>
 </template>
 
