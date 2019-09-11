@@ -1,8 +1,8 @@
 {
-  "name": "smk",
+  "name": "bams",
   "version": "0.0.1",
-  "description": "aplikasi siswa smk dengan quasar framework",
-  "productName": "Aplikasi Siswa SMK",
+  "description": "aplikasi bams bbta3 bppt dengan quasar framework",
+  "productName": "BAMS BBTA3 BPPT",
   "cordovaId": "org.cordova.quasar.app",
   "author": "akbarpn136",
   "private": true,
