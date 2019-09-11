@@ -5,8 +5,9 @@ const routes = [
     meta: {kunci: true},
     component: () => import('layouts/Default.vue'),
     children: [
-      { path: '', component: () => import('pages/Index.vue') },
-      { path: 'tentang', component: () => import('pages/Tentang.vue') },
+      { path: '', component: () => import('pages/Index.vue'), name: 'stream' },
+      { path: 'tentang', component: () => import('pages/Tentang.vue'), name: 'tentang' },
+      { path: 'data', component: () => import('pages/Data.vue'), name: 'data' },
     ]
   },
   {
