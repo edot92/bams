@@ -63,16 +63,20 @@ export default {
             {
               label: "Akselerometer 1",
               data: [],
-              backgroundColor: "rgba(129, 212, 250, 0.2)",
-              borderColor: "rgba(129, 212, 250, 1)",
-              borderWidth: 1
+              fill: false,
+              borderColor: "#FF5F6D",
+              borderWidth: 1,
+              lineTension: 0,
+              pointStyle: "cross"
             },
             {
               label: "Akselerometer 2",
               data: [],
-              backgroundColor: "rgba(104, 159, 56, 0.2)",
-              borderColor: "rgba(104, 159, 56, 1)",
-              borderWidth: 1
+              fill: false,
+              borderColor: "#FFC371",
+              borderWidth: 1,
+              lineTension: 0,
+              pointStyle: "triangle"
             }
           ]
         },
@@ -90,9 +94,9 @@ export default {
             xAxes: [
               {
                 ticks: {
-                  beginAtZero: true
+                  source: 'data'
                 },
-                display: false,
+                display: true,
                 stacked: true
               }
             ],
@@ -101,7 +105,7 @@ export default {
                 ticks: {
                   beginAtZero: true
                 },
-                display: false,
+                display: true,
                 stacked: true
               }
             ]
