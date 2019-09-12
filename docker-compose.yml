@@ -1,0 +1,13 @@
+version: "3.2"
+services:
+  frontend:
+    hostname: web
+    deploy:
+      placement:
+        constraints:
+          - node.labels.label == server1
+    image: nginx:latest
+    ports:
+      - "9615:80"
+    volumes:
+      - ./ui/dist/spa:/usr/share/nginx/html:ro
