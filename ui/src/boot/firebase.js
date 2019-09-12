@@ -13,8 +13,8 @@ export default async ({ Vue }) => {
     storageBucket: "bbta3-bppt.appspot.com",
     messagingSenderId: "246187970753"
   };
-
-  firebase.initializeApp(config)
+  
+  !firebase.apps.length ? firebase.initializeApp(config) : firebase.app()
 
   Vue.prototype.$firebase = firebase
 }
