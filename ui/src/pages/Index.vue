@@ -81,7 +81,6 @@ export default {
           ]
         },
         options: {
-          // animation: false,
           legend: {
             position: "bottom"
             // labels: {usePointStyle: true}
@@ -103,10 +102,14 @@ export default {
             yAxes: [
               {
                 ticks: {
-                  beginAtZero: true
+                  beginAtZero: true,
+                },
+                scaleLabel: {
+                  display: true,
+                  labelString: "m/s2"
                 },
                 display: true,
-                stacked: true
+                stacked: true,
               }
             ]
           }
@@ -116,7 +119,6 @@ export default {
     streamData() {
       const n = 8; // pisah setiap 8 karakter
       let waktu_ms = 0; // satuan milli second
-      // let that = this;
 
       this.client.on("connect", () => {
         this.drawTheChart()
@@ -188,7 +190,8 @@ export default {
             for (let i = 0; i < 100; i++) {
               if (this.mChart.data.labels.length > this.maxData)
                 this.mChart.data.labels.shift();
-              this.mChart.data.labels.push(timestamp + waktu_ms);
+              let waktu_lokal = new Date(timestamp + waktu_ms)
+              this.mChart.data.labels.push(waktu_lokal.toLocaleString())
 
               this.mChart.data.datasets.forEach(dataset => {
                 if (dataset.data.length > this.maxData) {
