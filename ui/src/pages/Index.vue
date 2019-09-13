@@ -106,7 +106,7 @@ export default {
                 },
                 scaleLabel: {
                   display: true,
-                  labelString: "m/s2"
+                  labelString: "G"
                 },
                 display: true,
                 stacked: true,
