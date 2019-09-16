@@ -8,7 +8,7 @@
         <q-card>
           <q-bar class="bg-secondary">
             <q-icon name="eva-bulb" color="white" />
-            <div class="text-white">Data Sensor di {{node}}</div>
+            <div class="text-white">Data Sensor {{node}}</div>
           </q-bar>
 
           <q-card-section>
