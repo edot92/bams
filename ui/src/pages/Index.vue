@@ -8,11 +8,11 @@
         <q-card>
           <q-bar class="bg-secondary">
             <q-icon name="eva-bulb" color="white" />
-            <div class="text-white">Baca Data Sensor</div>
+            <div class="text-white">Data Sensor di {{node}}</div>
           </q-bar>
 
           <q-card-section>
-            <CustomChart :connection="client" />
+            <CustomChart :connection="client" :node-sensor="node" />
           </q-card-section>
         </q-card>
       </div>
@@ -38,7 +38,8 @@ export default {
       client: MQTT.connect("ws://bbta3.bppt.go.id:9623/mqtt", {
         username: process.env.BAMS_USER,
         password: process.env.BAMS_PWD
-      })
+      }),
+      node : 'sb1'
     };
   },
   destroyed() {
