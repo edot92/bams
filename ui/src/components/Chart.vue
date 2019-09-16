@@ -53,6 +53,15 @@ export default {
               borderWidth: 1,
               lineTension: 0,
               pointStyle: "triangle"
+            },
+            {
+              label: "Akselerometer 3",
+              data: [],
+              fill: false,
+              borderColor: "#6dd5ed",
+              borderWidth: 1,
+              lineTension: 0,
+              pointStyle: "triangle"
             }
           ]
         },
@@ -128,14 +137,13 @@ export default {
                 "hex"
               ).readFloatBE(0)
 
-              if (this.node_sensor == "sb2") {
-                console.log("sb2")
+              if (node == "sb2") {
                 if (index >= 11 && index <= 803) {
-                  acc1.push(sensor_item)
+                  if (node == this.node_sensor) acc1.push(sensor_item)
                 } else if (index >= 811 && index <= 1603) {
-                  acc2.push(sensor_item)
+                  if (node == this.node_sensor) acc2.push(sensor_item)
                 } else if (index >= 1611 && index <= 2403) {
-                  acc3.push(sensor_item)
+                  if (node == this.node_sensor) acc3.push(sensor_item)
                 } else if (index == 2411) {
                   ane1 = sensor_item
                 } else if (index == 2419) {
@@ -143,12 +151,11 @@ export default {
                 } else if (index == 2427) {
                   ane3 = sensor_item
                 }
-              } else if (this.node_sensor == "sb1") {
-                console.log("sb1")
+              } else if (node == "sb1") {
                 if (index >= 11 && index <= 803) {
-                  acc1.push(sensor_item)
+                  if (node == this.node_sensor) acc1.push(sensor_item)
                 } else if (index >= 811 && index <= 1603) {
-                  acc2.push(sensor_item)
+                  if (node == this.node_sensor) acc2.push(sensor_item)
                 } else if (index == 1611) {
                   ane1 = sensor_item
                 } else if (index == 1619) {
@@ -157,11 +164,10 @@ export default {
                   ane3 = sensor_item
                 }
               } else {
-                console.log("sb3")
                 if (index >= 11 && index <= 803) {
-                  acc1.push(sensor_item)
+                  if (node == this.node_sensor) acc1.push(sensor_item)
                 } else if (index >= 811 && index <= 1603) {
-                  acc2.push(sensor_item);
+                  if (node == this.node_sensor) acc2.push(sensor_item);
                 }
               }
             }
@@ -179,8 +185,10 @@ export default {
 
                 if (dataset.label == "Akselerometer 1") {
                   dataset.data.push(acc1[i])
-                } else {
+                } else if (dataset.label == "Akselerometer 2") {
                   dataset.data.push(acc2[i])
+                } else {
+                  dataset.data.push(acc3[i])
                 }
               })
 
