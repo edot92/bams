@@ -3,11 +3,26 @@ const routes = [
   {
     path: '/',
     meta: {kunci: true},
+    component: () => import('layouts/Stream.vue'),
+    children: [
+      { path: '', component: () => import('pages/Index.vue'), name: 'stream'},
+      { path: ':node/node', component: () => import('pages/Index.vue'), name: 'stream_node'},
+    ]
+  },
+  {
+    path: '/tentang',
+    meta: {kunci: true},
     component: () => import('layouts/Default.vue'),
     children: [
-      { path: '', component: () => import('pages/Index.vue'), name: 'stream' },
-      { path: 'tentang', component: () => import('pages/Tentang.vue'), name: 'tentang' },
-      { path: 'data', component: () => import('pages/Data.vue'), name: 'data' },
+      { path: '', component: () => import('pages/Tentang.vue'), name: 'tentang' },
+    ]
+  },
+  {
+    path: '/query',
+    meta: {kunci: true},
+    component: () => import('layouts/Default.vue'),
+    children: [
+      { path: '', component: () => import('pages/Query.vue'), name: 'query' },
     ]
   },
   {
