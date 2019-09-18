@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import counter from './counter'
+import node from './node'
 
 Vue.use(Vuex)
 
@@ -13,7 +13,7 @@ Vue.use(Vuex)
 export default function (/* { ssrContext } */) {
   const Store = new Vuex.Store({
     modules: {
-      counter
+      node
     },
 
     // enable strict mode (adds overhead!)
