@@ -50,13 +50,13 @@
               </q-item-section>
             </q-item>
 
-            <q-item :to="{name: 'data'}" clickable v-ripple>
+            <q-item :to="{name: 'query'}" clickable v-ripple>
               <q-item-section avatar>
                 <q-icon name="eva-monitor-outline" />
               </q-item-section>
 
               <q-item-section>
-                DATA
+                QUERY
               </q-item-section>
             </q-item>
           </q-list>
@@ -102,8 +102,7 @@ export default {
       }
     },
     goToTentang() {
-      if(this.$route.path != '/tentang') this.$store.commit('counter/counterMutation')
-      this.$router.push('/tentang')
+      this.$router.push({name: 'tentang'})
     }
   },
 }
