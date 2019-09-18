@@ -4,7 +4,7 @@
       Sedang memuat...
       <q-spinner-cube color="primary" size="2em" />
     </div>
-    <canvas id="streamChart" class="full-width" style="max-height: 580px;"></canvas>
+    <canvas id="streamChart" class="full-width" style="max-height: 400px;"></canvas>
   </div>
 </template>
 
@@ -13,18 +13,18 @@ import Chart from "chart.js"
 
 export default {
   name: "ChartComponent",
-  props: ["connection", "nodeSensor"],
   data() {
     return {
-      client: this.connection,
-      node_sensor: this.nodeSensor,
+      client: null,
+      node_sensor: null,
       loading: true,
       maxData: 500,
       mChart: null,
     }
   },
   mounted() {
-    if (this.node_sensor == null) this.node_sensor = "sb1"
+    this.client = this.$store.getters['node/nodeClientGetter']
+    this.node_sensor = this.$store.getters['node/nodeGetter']
 
     this.streamData()
   },
@@ -202,6 +202,11 @@ export default {
           this.loading = true
         }
       })
+    }
+  },
+  computed: {
+    node_sensor: () => {
+      return this.$store.getters['node/nodeGetter']
     }
   }
 }
