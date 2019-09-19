@@ -171,6 +171,17 @@ export default {
               }
             }
 
+            if (node == 'sb1' || node == 'sb2') {
+              this.$store.commit('node/nodeMutation', {
+                number: this.node_sensor,
+                ane: {
+                  ane1,
+                  ane2,
+                  ane3
+                }
+              })
+            }
+
             for (let i = 0; i < 100; i++) {
               if (this.mChart.data.labels.length > this.maxData)
                 this.mChart.data.labels.shift()
