@@ -121,6 +121,7 @@ export default {
         this.user.id = user.uid
       }
     })
+  
     this.$store.commit('node/nodeMutation', {
       client: MQTT.connect("ws://bbta3.bppt.go.id:9623/mqtt", {
         username: process.env.BAMS_USER,
