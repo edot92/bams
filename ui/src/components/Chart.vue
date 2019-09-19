@@ -144,11 +144,11 @@ export default {
                 } else if (index >= 1611 && index <= 2403) {
                   if (node == this.node_sensor) acc3.push(sensor_item)
                 } else if (index == 2411) {
-                  ane1 = sensor_item
+                  if (node == this.node_sensor) ane1 = sensor_item
                 } else if (index == 2419) {
-                  ane2 = sensor_item
+                  if (node == this.node_sensor) ane2 = sensor_item
                 } else if (index == 2427) {
-                  ane3 = sensor_item
+                  if (node == this.node_sensor) ane3 = sensor_item
                 }
               } else if (node == "sb1") {
                 if (index >= 11 && index <= 803) {
@@ -156,11 +156,11 @@ export default {
                 } else if (index >= 811 && index <= 1603) {
                   if (node == this.node_sensor) acc2.push(sensor_item)
                 } else if (index == 1611) {
-                  ane1 = sensor_item
+                  if (node == this.node_sensor) ane1 = sensor_item
                 } else if (index == 1619) {
-                  ane2 = sensor_item
+                  if (node == this.node_sensor) ane2 = sensor_item
                 } else if (index == 1627) {
-                  ane3 = sensor_item
+                  if (node == this.node_sensor) ane3 = sensor_item
                 }
               } else {
                 if (index >= 11 && index <= 803) {
