@@ -16,15 +16,14 @@ export default {
   data() {
     return {
       client: null,
-      node_sensor: null,
       loading: true,
       maxData: 500,
-      mChart: null,
+      mChart: null
     }
   },
   mounted() {
-    this.client = this.$store.getters['node/nodeClientGetter']
-    this.node_sensor = this.$store.getters['node/nodeGetter']
+    this.client = this.$store.getters["node/nodeClientGetter"]
+    this.node_sensor = this.$store.getters["node/nodeGetter"]
 
     this.streamData()
   },
@@ -167,7 +166,7 @@ export default {
                 if (index >= 11 && index <= 803) {
                   if (node == this.node_sensor) acc1.push(sensor_item)
                 } else if (index >= 811 && index <= 1603) {
-                  if (node == this.node_sensor) acc2.push(sensor_item);
+                  if (node == this.node_sensor) acc2.push(sensor_item)
                 }
               }
             }
@@ -205,8 +204,15 @@ export default {
     }
   },
   computed: {
-    node_sensor: () => {
-      return this.$store.getters['node/nodeGetter']
+    node_sensor: {
+      get: function () {
+        return this.$store.getters["node/nodeGetter"]
+      },
+      set: function (newValue) {
+        this.$store.commit("node/nodeMutation", {
+          number: newValue
+        })
+      }
     }
   }
 }
