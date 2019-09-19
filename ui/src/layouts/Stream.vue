@@ -69,6 +69,42 @@
           <img src="~assets/suramadu.png" style="height:130vw;max-height:650px;" />
         </div>
         <div class="col-11">
+          <div class="row q-mb-md q-gutter-md" v-if="node=='sb1' || node=='sb2'">
+            <div class="col">
+              <q-card flat bordered class="my-card">
+                <q-card-section>
+                  KECEPATAN ANGIN
+                </q-card-section>
+
+                <q-card-section>
+                  <div><span class="text-h5">{{ane.ane1}}</span> m/s</div>
+                </q-card-section>
+              </q-card>
+            </div>
+            <div class="col">
+              <q-card flat bordered class="my-card">
+                <q-card-section>
+                  ARAH ANGIN
+                </q-card-section>
+
+                <q-card-section>
+                  <div><span class="text-h5">{{ane.ane2}}</span> derajat</div>
+                </q-card-section>
+              </q-card>
+            </div>
+            <div class="col">
+              <q-card flat bordered class="my-card">
+                <q-card-section>
+                  SUDUT SERANG ANGIN
+                </q-card-section>
+
+                <q-card-section>
+                  <div><span class="text-h5">{{ane.ane3}}</span> derajat</div>
+                </q-card-section>
+              </q-card>
+            </div>
+          </div>
+
           <q-toolbar class="bg-secondary text-white shadow-0">
             <q-icon name="eva-bulb" color="white" />
             <div class="text-white on-right">Data Sensor</div>
@@ -158,6 +194,20 @@ export default {
       this.$router.push({name: 'tentang'})
     }
   },
+  computed: {
+    ane: {
+      get: function () {
+        let anemometer = this.$store.getters["node/nodeAneGetter"]
+        if (anemometer) return anemometer
+        else return {'ane1': '-', 'ane2': '-', 'ane3': '-'}
+      },
+      set: function (newValue) {
+        this.$store.commit("node/nodeMutation", {
+          ane: newValue
+        })
+      }
+    }
+  }
 }
 </script>
 
