@@ -3,10 +3,9 @@ const routes = [
   {
     path: '/',
     meta: {kunci: true},
-    component: () => import('layouts/Stream.vue'),
+    component: () => import('layouts/Default.vue'),
     children: [
-      { path: '', component: () => import('pages/Index.vue'), name: 'stream'},
-      { path: ':node/node', component: () => import('pages/Index.vue'), name: 'stream_node'},
+      { path: '', component: () => import('pages/Dashboard.vue'), name: 'dashboard'},
     ]
   },
   {
