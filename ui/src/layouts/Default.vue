@@ -36,23 +36,22 @@
         mini-to-overlay
         :width="180"
         :breakpoint="500"
-        bordered
         content-class="bg-grey-10">
         <q-scroll-area class="fit">
           <q-list padding class="text-white">
-            <q-item :to="{name: 'stream'}" exact clickable v-ripple>
+            <q-item :to="{name: 'dashboard'}" exact clickable v-ripple>
               <q-item-section avatar>
-                <q-icon name="eva-activity-outline" />
+                <q-icon name="eva-browser-outline" />
               </q-item-section>
 
               <q-item-section>
-                STREAM
+                DASHBOARD
               </q-item-section>
             </q-item>
 
             <q-item :to="{name: 'query'}" clickable v-ripple>
               <q-item-section avatar>
-                <q-icon name="eva-monitor-outline" />
+                <q-icon name="eva-search-outline" />
               </q-item-section>
 
               <q-item-section>
