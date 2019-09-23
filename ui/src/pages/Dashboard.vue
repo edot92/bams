@@ -5,11 +5,11 @@
         <div class="row">
           <div class="col-4">
             <q-list dark>
-              <q-item-label header>sb6</q-item-label>
+              <q-item-label header class="text-center text-blue-grey-3">sb6</q-item-label>
               <q-item>
                 <q-item-section>
-                  <q-item-label>Akselerometer x</q-item-label>
-                  <q-item-label caption>
+                  <q-item-label class="text-warning">Akselerometer x</q-item-label>
+                  <q-item-label class="text-h6">
                     {{sensor.sb6_acc1}} G
                   </q-item-label>
                 </q-item-section>
@@ -19,8 +19,8 @@
 
               <q-item>
                 <q-item-section>
-                  <q-item-label>Akselerometer y</q-item-label>
-                  <q-item-label caption>{{sensor.sb6_acc2}} G</q-item-label>
+                  <q-item-label class="text-warning">Akselerometer y</q-item-label>
+                  <q-item-label class="text-h6">{{sensor.sb6_acc2}} G</q-item-label>
                 </q-item-section>
               </q-item>
             </q-list>
@@ -28,11 +28,11 @@
 
           <div class="col-4">
             <q-list dark>
-              <q-item-label header>sb2</q-item-label>
+              <q-item-label header class="text-center text-blue-grey-3">sb2</q-item-label>
               <q-item>
                 <q-item-section>
-                  <q-item-label>Akselerometer x</q-item-label>
-                  <q-item-label caption>{{sensor.sb2_acc1}} G</q-item-label>
+                  <q-item-label class="text-warning">Akselerometer x</q-item-label>
+                  <q-item-label class="text-h6">{{sensor.sb2_acc1}} G</q-item-label>
                 </q-item-section>
               </q-item>
 
@@ -40,8 +40,8 @@
 
               <q-item>
                 <q-item-section>
-                  <q-item-label>Akselerometer y</q-item-label>
-                  <q-item-label caption>{{sensor.sb2_acc2}} G</q-item-label>
+                  <q-item-label class="text-warning">Akselerometer y</q-item-label>
+                  <q-item-label class="text-h6">{{sensor.sb2_acc2}} G</q-item-label>
                 </q-item-section>
               </q-item>
 
@@ -49,8 +49,8 @@
 
               <q-item>
                 <q-item-section>
-                  <q-item-label>Akselerometer z</q-item-label>
-                  <q-item-label caption>{{sensor.sb2_acc3}} G</q-item-label>
+                  <q-item-label class="text-warning">Akselerometer z</q-item-label>
+                  <q-item-label class="text-h6">{{sensor.sb2_acc3}} G</q-item-label>
                 </q-item-section>
               </q-item>
 
@@ -58,8 +58,8 @@
 
               <q-item>
                 <q-item-section>
-                  <q-item-label>Kecepatan angin</q-item-label>
-                  <q-item-label caption>{{sensor.sb2_ane1}} m/s</q-item-label>
+                  <q-item-label class="text-warning">Kecepatan angin</q-item-label>
+                  <q-item-label class="text-h6">{{sensor.sb2_ane1}} m/s</q-item-label>
                 </q-item-section>
               </q-item>
 
@@ -67,8 +67,8 @@
 
               <q-item>
                 <q-item-section>
-                  <q-item-label>Arah angin</q-item-label>
-                  <q-item-label caption>{{sensor.sb2_ane2}}</q-item-label>
+                  <q-item-label class="text-warning">Arah angin</q-item-label>
+                  <q-item-label class="text-h6">{{sensor.sb2_ane2}}</q-item-label>
                 </q-item-section>
               </q-item>
             </q-list>
@@ -76,11 +76,11 @@
 
           <div class="col-4">
             <q-list dark>
-              <q-item-label header>sb4</q-item-label>
+              <q-item-label header class="text-center text-blue-grey-3">sb4</q-item-label>
               <q-item>
                 <q-item-section>
-                  <q-item-label>Akselerometer x</q-item-label>
-                  <q-item-label caption>{{sensor.sb4_acc1}} G</q-item-label>
+                  <q-item-label class="text-warning">Akselerometer x</q-item-label>
+                  <q-item-label class="text-h6">{{sensor.sb4_acc1}} G</q-item-label>
                 </q-item-section>
               </q-item>
 
@@ -88,24 +88,24 @@
 
               <q-item>
                 <q-item-section>
-                  <q-item-label>Akselerometer y</q-item-label>
-                  <q-item-label caption>{{sensor.sb4_acc2}} G</q-item-label>
+                  <q-item-label class="text-warning">Akselerometer y</q-item-label>
+                  <q-item-label class="text-h6">{{sensor.sb4_acc2}} G</q-item-label>
                 </q-item-section>
               </q-item>
             </q-list>
           </div>
         </div>
       </div>
-      <div class="col-8" style="height: 200px"></div>
+
       <div class="col self-start">
         <div class="row">
           <div class="col-4">
             <q-list dark>
-              <q-item-label header>sb5</q-item-label>
+              <q-item-label header class="text-center text-blue-grey-3">sb5</q-item-label>
               <q-item>
                 <q-item-section>
-                  <q-item-label>Akselerometer x</q-item-label>
-                  <q-item-label caption>{{sensor.sb5_acc1}} G</q-item-label>
+                  <q-item-label class="text-warning">Akselerometer x</q-item-label>
+                  <q-item-label class="text-h6">{{sensor.sb5_acc1}} G</q-item-label>
                 </q-item-section>
               </q-item>
 
@@ -113,8 +113,8 @@
 
               <q-item>
                 <q-item-section>
-                  <q-item-label>Akselerometer y</q-item-label>
-                  <q-item-label caption>{{sensor.sb5_acc2}} G</q-item-label>
+                  <q-item-label class="text-warning">Akselerometer y</q-item-label>
+                  <q-item-label class="text-h6">{{sensor.sb5_acc2}} G</q-item-label>
                 </q-item-section>
               </q-item>
             </q-list>
@@ -122,11 +122,11 @@
 
           <div class="col-4">
             <q-list dark>
-              <q-item-label header>sb1</q-item-label>
+              <q-item-label header class="text-center text-blue-grey-3">sb1</q-item-label>
               <q-item>
                 <q-item-section>
-                  <q-item-label>Akselerometer x</q-item-label>
-                  <q-item-label caption>{{sensor.sb1_acc1}} G</q-item-label>
+                  <q-item-label class="text-warning">Akselerometer x</q-item-label>
+                  <q-item-label class="text-h6">{{sensor.sb1_acc1}} G</q-item-label>
                 </q-item-section>
               </q-item>
 
@@ -134,8 +134,8 @@
 
               <q-item>
                 <q-item-section>
-                  <q-item-label>Akselerometer y</q-item-label>
-                  <q-item-label caption>{{sensor.sb1_acc3}} G</q-item-label>
+                  <q-item-label class="text-warning">Akselerometer y</q-item-label>
+                  <q-item-label class="text-h6">{{sensor.sb1_acc2}} G</q-item-label>
                 </q-item-section>
               </q-item>
 
@@ -143,8 +143,8 @@
 
               <q-item>
                 <q-item-section>
-                  <q-item-label>Kecepatan angin</q-item-label>
-                  <q-item-label caption>{{sensor.sb1_ane1}} m/s</q-item-label>
+                  <q-item-label class="text-warning">Kecepatan angin</q-item-label>
+                  <q-item-label class="text-h6">{{sensor.sb1_ane1}} m/s</q-item-label>
                 </q-item-section>
               </q-item>
 
@@ -152,8 +152,8 @@
 
               <q-item>
                 <q-item-section>
-                  <q-item-label>Arah angin</q-item-label>
-                  <q-item-label caption>{{sensor.sb1_ane2}}</q-item-label>
+                  <q-item-label class="text-warning">Arah angin</q-item-label>
+                  <q-item-label class="text-h6">{{sensor.sb1_ane2}}</q-item-label>
                 </q-item-section>
               </q-item>
             </q-list>
@@ -161,11 +161,11 @@
 
           <div class="col-4">
             <q-list dark>
-              <q-item-label header>sb3</q-item-label>
+              <q-item-label header class="text-center text-blue-grey-3">sb3</q-item-label>
               <q-item>
                 <q-item-section>
-                  <q-item-label>Akselerometer x</q-item-label>
-                  <q-item-label caption>{{sensor.sb3_acc1}} G</q-item-label>
+                  <q-item-label class="text-warning">Akselerometer x</q-item-label>
+                  <q-item-label class="text-h6">{{sensor.sb3_acc1}} G</q-item-label>
                 </q-item-section>
               </q-item>
 
@@ -173,8 +173,8 @@
 
               <q-item>
                 <q-item-section>
-                  <q-item-label>Akselerometer y</q-item-label>
-                  <q-item-label caption>{{sensor.sb3_acc2}} G</q-item-label>
+                  <q-item-label class="text-warning">Akselerometer y</q-item-label>
+                  <q-item-label class="text-h6">{{sensor.sb3_acc2}} G</q-item-label>
                 </q-item-section>
               </q-item>
             </q-list>
@@ -197,14 +197,7 @@ export default {
         username: process.env.BAMS_USER,
         password: process.env.BAMS_PWD
       }),
-      sensor: {
-        sb1_acc1: 0, sb1_acc2: 0, sb1_ane1: 0, sb1_ane2: 0, sb1_ane3: 0,
-        sb2_acc1: 0, sb2_acc2: 0, sb2_acc3: 0, sb2_ane1: 0, sb2_ane2: 0, sb2_ane3: 0,
-        sb3_acc1: 0, sb3_acc2: 0, 
-        sb4_acc1: 0, sb4_acc2: 0,
-        sb5_acc1: 0, sb5_acc2: 0,
-        sb6_acc1: 0, sb6_acc2: 0,
-      }
+      sensor: this.$store.getters['node/nodeGetter']
     }
   },
   created() {
@@ -212,9 +205,7 @@ export default {
       try {
         await this.mqtt.subscribe("BAMS")
 
-        this.sensor = processData(topic, 8, 0)
-
-        console.log(this.sensor)
+        processData(topic, 8, this.$store)
       } catch (error) {
         console.log(error.message)
         this.mqtt.end()
