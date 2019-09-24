@@ -2,6 +2,7 @@ const MQTT = require("async-mqtt")
 const conn = require("./src/database/connection")
 const db = require("./src/database")
 const d2c = require("./src/helpers/deg2compas")
+const grup = require("./src/helpers/grup_kecepatan")
 
 const bucket = conn.cluster.openBucket("bbta3_bams_suramadu_test")
 
@@ -15,6 +16,7 @@ let waktu_ms = 0  // satuan milli second
 const onMessage = async (topic) => {
     try {
         await client.subscribe("BAMS")
+
         if (topic.payload) {
             const node = topic.payload.toString().slice(0, 3)
             const timestamp = parseInt(topic.payload.toString().slice(3, 11), 16) * 1000
@@ -76,14 +78,14 @@ const onMessage = async (topic) => {
                     "acc2": acc2.length > 0 ? acc2[i] : null,
                     "acc3": node == "sb2" && acc3.length > 0 ? acc3[i] : null,
                     "arah": ane2,
-                    "grup_kec": ane1,
+                    "grup_kec": grup.grup_kecepatan(ane1),
                     "kecepatan": ane1,
                     "kompas": ane2 ? d2c.toCompas(ane2) : null,
                     "sudut_serang": ane3,
                 }
 
-                db.insertSensor(bucket, payload)
-                // console.log(payload)
+                // db.insertSensor(bucket, payload)
+                console.log(payload)
                 waktu_ms += 10  // dalam satuan ms, 1 s ada 100 data getaran
             }
         }
