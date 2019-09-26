@@ -18,9 +18,8 @@ router.get('/', (req, res) => {
 
   database(`SELECT * 
             FROM bbta3_bams_suramadu_test 
-            WHERE node='${node}' AND META().id BETWEEN ${kemarin.toString()} AND ${sekarang.toString()}
-            LIMIT 200`
-  )
+            WHERE node='${node}' AND META().id BETWEEN '${kemarin.toString()}' AND '${sekarang.toString()}'
+  `)
 
   res.status(200).json({
     status: 'STREAMING...'
