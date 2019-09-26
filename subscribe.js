@@ -84,8 +84,8 @@ const onMessage = async (topic) => {
                     "sudut_serang": ane3,
                 }
 
-                // db.insertSensor(bucket, payload)
-                console.log(payload)
+                db.insertSensor(bucket, payload)
+                // console.log(payload)
                 waktu_ms += 10  // dalam satuan ms, 1 s ada 100 data getaran
             }
         }
