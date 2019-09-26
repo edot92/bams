@@ -16,7 +16,7 @@ router.get('/', (req, res) => {
   const durasi = 8.64e+7  // dalam ms
   const kemarin = sekarang - durasi  // dalam ms
 
-  database(`SELECT * 
+  database(`SELECT *, META().id 
             FROM bbta3_bams_suramadu_test 
             WHERE node='${node}' AND META().id BETWEEN '${kemarin.toString()}' AND '${sekarang.toString()}'
   `)
