@@ -17,7 +17,7 @@ const openBucket = (query) => {
     })
 
     req.on('row', row => {
-        console.log(row)
+        mqtt_client.publish('BAMS/query', JSON.stringify(row))
     })
 
     req.on('end', meta => {
