@@ -1,4 +1,6 @@
 const express = require('express')
+const uuidv1 = require('uuid/v1')
+
 const router = express.Router()
 
 const database = require('../helpers/database')
@@ -13,16 +15,18 @@ router.get('/', (req, res) => {
     sekarang = pilihan_waktu.getTime()/1000.0
   }
 
-  const durasi = 8.64e+7  // dalam ms
+  const durasi = 8.64e+7  // 1 hari dalam ms
   const kemarin = sekarang - durasi  // dalam ms
+  const unique_id = uuidv1()
 
   database(`SELECT *, META().id 
             FROM bbta3_bams_suramadu_test 
             WHERE node='${node}' AND META().id BETWEEN '${kemarin.toString()}' AND '${sekarang.toString()}'
-  `)
+  `, unique_id)
 
   res.status(200).json({
-    status: 'STREAMING...'
+    id: unique_id,
+    status: 'STREAMING...',
   })
 })
 
