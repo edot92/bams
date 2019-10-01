@@ -7,7 +7,7 @@ cluster.authenticate(process.env.BAMS_USER, process.env.BAMS_PWD)
 const bucket = cluster.openBucket('bbta3_bams_suramadu_test')
 const N1qlQuery = couchbase.N1qlQuery
 
-const openBucket = (query) => {
+const openBucket = (query, uid) => {
     const req = bucket.query(
         N1qlQuery.fromString(query)
     )
@@ -17,7 +17,7 @@ const openBucket = (query) => {
     })
 
     req.on('row', row => {
-        mqtt_client.publish('BAMS/query', JSON.stringify(row))
+        mqtt_client.publish(`BAMS/query/${uid}`, JSON.stringify(row))
     })
 
     req.on('end', meta => {
