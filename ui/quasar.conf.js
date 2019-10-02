@@ -24,6 +24,7 @@ module.exports = function (ctx) {
 
     framework: {
       // all: true, // --- includes everything; for dev only!
+      cssAddon: true,
 
       components: [
         'QLayout',
@@ -50,7 +51,10 @@ module.exports = function (ctx) {
         'QInput',
         'QSeparator',
         'QScrollArea',
-        'QSpinnerCube'
+        'QSpinnerCube',
+        'QDate',
+        'QPopupProxy',
+        'QSelect'
       ],
 
       directives: [
