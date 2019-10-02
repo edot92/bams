@@ -14,11 +14,11 @@
           <q-separator inset />
 
           <q-card-section>
-            <q-input filled v-model="date" mask="date" :rules="['date']" label="Tanggal">
+            <q-input filled v-model="tanggal" mask="date" :rules="['date']" label="Tanggal">
               <template v-slot:append>
                 <q-icon name="event" class="cursor-pointer">
                   <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
-                    <q-date v-model="date" @input="() => $refs.qDateProxy.hide()" />
+                    <q-date v-model="tanggal" @input="() => $refs.qDateProxy.hide()" />
                   </q-popup-proxy>
                 </q-icon>
               </template>
@@ -69,7 +69,7 @@ export default {
   name: "HalamanQuery",
   data() {
     return {
-      date: date.formatDate(new Date(), 'YYYY/MM/DD'),
+      tanggal: date.formatDate(new Date(), 'YYYY/MM/DD'),
       node: 'sb1',
       uid: '',
       opsiNode: ['sb1', 'sb2', 'sb3', 'sb4', 'sb5', 'sb6'],
@@ -84,9 +84,6 @@ export default {
           r: 0,
           b: 50,
           t: 0
-        },
-        xaxis: {
-          title: 'waktu'
         },
         yaxis: {
           title: 'amplitudo G'
@@ -112,49 +109,41 @@ export default {
   methods: {
     async streamChart() {
       this.queryElement = document.getElementById('query')
-      const payload = await this.$axios.get(`http://localhost:9624/?node=${this.node}&?tanggal_waktu=${this.date}`)
+      const payload = await this.$axios.get(`http://localhost:9624/?node=${this.node}&?tanggal_waktu=${this.tanggal}`)
       this.uid = payload.data.id
 
       this.trace.trace1 = {
-        x: [1, 2, 3, 4],
-        y: [0, 2, 3, 5],
+        x: [],
+        y: [],
         fill: "tozeroy",
         type: 'scattergl',
         name: 'acc1',
         mode: 'lines',
-        stackgroup: 'acc'
+        stackgroup: 'acc',
+        connectgaps: false
       }
 
       this.trace.trace2 = {
-        x: [1, 2, 3, 4],
-        y: [3, 5, 1, 7],
+        x: [],
+        y: [],
         fill: "tozeroy",
         type: 'scattergl',
         name: 'acc2',
         mode: 'lines',
-        stackgroup: 'acc'
+        stackgroup: 'acc',
+        connectgaps: false
       }
 
       this.trace.trace3 = {
-        x: [1, 2, 3, 4],
-        y: [10, 7, 3, 1],
+        x: [],
+        y: [],
         fill: "tozeroy",
         type: 'scattergl',
         name: 'acc3',
         mode: 'lines',
-        stackgroup: 'acc'
+        stackgroup: 'acc',
+        connectgaps: false
       }
-
-      this.mqtt.on("packetreceive", async (topic) => {
-        try {
-          await this.mqtt.subscribe(`BAMS/query/${this.uid}`)
-
-          if (topic.payload) console.log(new TextDecoder("utf-8").decode(topic.payload))
-        } catch (error) {
-          console.log(error.message)
-          this.mqtt.end()
-        }
-      })
 
       Plotly.plot(
         this.queryElement, 
@@ -166,6 +155,46 @@ export default {
         this.layout,
         this.conf
       )
+
+      let acc1 = []
+      let acc2 = []
+      let acc3 = []
+      let ane1 = []
+      let waktu = []
+
+      this.mqtt.on("packetreceive", async (topic) => {
+        try {
+          await this.mqtt.subscribe(`BAMS/query/${this.uid}`)
+
+          if (topic.payload) {
+            const string_sensor = new TextDecoder("utf-8").decode(topic.payload)
+            const json_sensor = JSON.parse(string_sensor)
+
+            waktu.push(date.formatDate(parseInt(json_sensor.id), 'HH:mm:ss.SSS'))
+            acc1.push(json_sensor.bbta3_bams_suramadu_test.acc1)
+            acc2.push(json_sensor.bbta3_bams_suramadu_test.acc2)
+            acc3.push(json_sensor.bbta3_bams_suramadu_test.acc3)
+
+            let update = {
+              x: [
+                waktu,
+                waktu,
+                waktu
+              ],
+              y: [
+                acc1, 
+                acc2,
+                acc3
+              ]
+            }
+
+            Plotly.restyle(this.queryElement, update)
+          }
+        } catch (error) {
+          console.log(error.message)
+          this.mqtt.end()
+        }
+      })
     }
   }
 };
