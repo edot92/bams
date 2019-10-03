@@ -109,7 +109,7 @@ export default {
   methods: {
     async streamChart() {
       this.queryElement = document.getElementById('query')
-      const payload = await this.$axios.get(`http://localhost:9624/?node=${this.node}&?tanggal_waktu=${this.tanggal}`)
+      const payload = await this.$axios.get(`http://${BAMS_HOST_BACKEND}:9624/?node=${this.node}&?tanggal_waktu=${this.tanggal}`)
       this.uid = payload.data.id
 
       this.trace.trace1 = {
