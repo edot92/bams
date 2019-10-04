@@ -58,7 +58,7 @@
 
               <q-item>
                 <q-item-section>
-                  <q-item-label class="text-warning">Kecepatan angin</q-item-label>
+                  <q-item-label class="text-warning">Kec angin</q-item-label>
                   <q-item-label class="text-h6">{{sensor.sb2_ane1}} m/s</q-item-label>
                 </q-item-section>
               </q-item>
@@ -143,7 +143,7 @@
 
               <q-item>
                 <q-item-section>
-                  <q-item-label class="text-warning">Kecepatan angin</q-item-label>
+                  <q-item-label class="text-warning">Kec angin</q-item-label>
                   <q-item-label class="text-h6">{{sensor.sb1_ane1}} m/s</q-item-label>
                 </q-item-section>
               </q-item>
@@ -186,7 +186,7 @@
 </template>
 
 <script>
-import MQTT from "mqtt"
+import MQTT from "async-mqtt"
 import {processData} from '../controllers/dashboard'
 
 export default {
@@ -195,25 +195,40 @@ export default {
     return {
       mqtt: MQTT.connect("ws://bbta3.bppt.go.id:9623/mqtt", {
         username: process.env.BAMS_USER,
-        password: process.env.BAMS_PWD
+        password: process.env.BAMS_PWD,
+        keepalive: 1000
       }),
       sensor: this.$store.getters['node/nodeGetter']
     }
   },
   created() {
-    this.mqtt.on("packetreceive", async (topic) => {
-      try {
-        await this.mqtt.subscribe("BAMS")
-
-        processData(topic, 8, this.$store)
-      } catch (error) {
-        console.log(error.message)
-        this.mqtt.end()
-      }
-    })
+    this.cobaMQTT()
   },
   destroyed() {
     this.mqtt.end()
+  },
+  methods: {
+    cobaMQTT() {
+      this.mqtt.on('connect', async (connact) => {
+        try {
+          await this.mqtt.subscribe("BAMS/dashboard")
+        } catch (e){
+          console.log(e.stack)
+        }
+      })
+
+      this.mqtt.on("message", async (topic, message, packet) => {
+        try {
+          const string_sensor = new TextDecoder("utf-8").decode(message)
+          const json_sensor = JSON.parse(string_sensor)
+
+          processData(json_sensor, this.$store)
+        } catch (error) {
+          console.log(error.message)
+          this.mqtt.end()
+        }
+      })
+    }
   }
 };
 </script>
