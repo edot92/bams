@@ -11,6 +11,11 @@ const client = MQTT.connect("mqtt://" + process.env.BAMS_HOST_MQTT + ":9621", {
     password: process.env.BAMS_PWD
 })
 
+const clientWS = MQTT.connect("ws://" + process.env.BAMS_HOST_MQTT + ":9623/mqtt", {
+    username: process.env.BAMS_USER,
+    password: process.env.BAMS_PWD
+})
+
 const n = 8  // pisah setiap 8 karakter
 let waktu_ms = 0  // satuan milli second
 const onMessage = async (topic) => {
@@ -85,6 +90,7 @@ const onMessage = async (topic) => {
                 }
 
                 db.insertSensor(bucket, payload)
+                await clientWS.publish("BAMS/dashboard", JSON.stringify(payload))
                 // console.log(payload)
                 waktu_ms += 10  // dalam satuan ms, 1 s ada 100 data getaran
             }
