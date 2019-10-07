@@ -62,8 +62,8 @@
 </style>
 
 <script>
-import { date } from 'quasar'
-import MQTT from "mqtt"
+import { date, uid } from 'quasar'
+import MQTT from "async-mqtt"
 
 export default {
   name: "HalamanQuery",
@@ -77,7 +77,7 @@ export default {
       trace: {},
       layout: {
         legend: {
-          orientation: 'h'
+          orientation: 'h',
         },
         margin: {
           l: 50,
@@ -109,7 +109,10 @@ export default {
   methods: {
     async streamChart() {
       this.queryElement = document.getElementById('query')
-      const payload = await this.$axios.get(`http://${process.env.BAMS_HOST_BACKEND}:9624/?node=${this.node}&?tanggal_waktu=${this.tanggal}`)
+      const genUid = uid()
+      const payload = await this.$axios.get(`
+        http://${process.env.BAMS_HOST_BACKEND}:9624/?node=${this.node}&?tanggal_waktu=${this.tanggal}&?uid=${genUid}
+      `)
       this.uid = payload.data.id
 
       this.trace.trace1 = {
