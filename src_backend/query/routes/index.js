@@ -1,5 +1,4 @@
 const express = require('express')
-const uuidv1 = require('uuid/v1')
 
 const router = express.Router()
 
@@ -17,7 +16,7 @@ router.get('/', (req, res) => {
 
   const durasi = 8.64e+7  // 1 hari dalam ms
   const kemarin = sekarang - durasi  // dalam ms
-  const unique_id = uuidv1()
+  const unique_id = req.query.uid ? req.query.uid : 'uid'
 
   database(`SELECT *, META().id 
             FROM bbta3_bams_suramadu_test 
