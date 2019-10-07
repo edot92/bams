@@ -31,7 +31,8 @@
               text-color="primary" 
               label="PROSES"
               size="lg"
-              class="full-width" />
+              class="full-width" 
+              @click="streamChart()" />
           </q-card-section>
         </q-card>
       </div>
@@ -74,7 +75,38 @@ export default {
       uid: '',
       opsiNode: ['sb1', 'sb2', 'sb3', 'sb4', 'sb5', 'sb6'],
       queryElement: null,
-      trace: {},
+      trace: {
+        trace1: {
+          x: [],
+          y: [],
+          fill: "tozeroy",
+          type: 'scattergl',
+          name: 'acc1',
+          mode: 'lines',
+          stackgroup: 'acc',
+          connectgaps: false
+        },
+        trace2: {
+          x: [],
+          y: [],
+          fill: "tozeroy",
+          type: 'scattergl',
+          name: 'acc2',
+          mode: 'lines',
+          stackgroup: 'acc',
+          connectgaps: false
+        },
+        trace3: {
+          x: [],
+          y: [],
+          fill: "tozeroy",
+          type: 'scattergl',
+          name: 'acc3',
+          mode: 'lines',
+          stackgroup: 'acc',
+          connectgaps: false
+        }
+      },
       layout: {
         legend: {
           orientation: 'h',
@@ -101,6 +133,19 @@ export default {
     };
   },
   mounted() {
+    this.queryElement = document.getElementById('query')
+
+    Plotly.plot(
+      this.queryElement, 
+      [
+        this.trace.trace1, 
+        this.trace.trace2, 
+        this.trace.trace3
+      ],
+      this.layout,
+      this.conf
+    )
+
     this.streamChart()
   },
   destroyed() {
@@ -108,56 +153,13 @@ export default {
   },
   methods: {
     async streamChart() {
-      this.queryElement = document.getElementById('query')
+      this.resetChart()
+
       const genUid = uid()
       const payload = await this.$axios.get(`
         http://${process.env.BAMS_HOST_BACKEND}:9624/?node=${this.node}&?tanggal_waktu=${this.tanggal}&?uid=${genUid}
       `)
       this.uid = payload.data.id
-
-      this.trace.trace1 = {
-        x: [],
-        y: [],
-        fill: "tozeroy",
-        type: 'scattergl',
-        name: 'acc1',
-        mode: 'lines',
-        stackgroup: 'acc',
-        connectgaps: false
-      }
-
-      this.trace.trace2 = {
-        x: [],
-        y: [],
-        fill: "tozeroy",
-        type: 'scattergl',
-        name: 'acc2',
-        mode: 'lines',
-        stackgroup: 'acc',
-        connectgaps: false
-      }
-
-      this.trace.trace3 = {
-        x: [],
-        y: [],
-        fill: "tozeroy",
-        type: 'scattergl',
-        name: 'acc3',
-        mode: 'lines',
-        stackgroup: 'acc',
-        connectgaps: false
-      }
-
-      Plotly.plot(
-        this.queryElement, 
-        [
-          this.trace.trace1, 
-          this.trace.trace2, 
-          this.trace.trace3
-        ],
-        this.layout,
-        this.conf
-      )
 
       let acc1 = []
       let acc2 = []
@@ -198,6 +200,16 @@ export default {
           this.mqtt.end()
         }
       })
+    },
+    resetChart() {
+      this.mqtt.reconnect()
+
+      this.trace.trace1.x = []
+      this.trace.trace1.y = []
+      this.trace.trace2.x = []
+      this.trace.trace2.y = []
+      this.trace.trace3.x = []
+      this.trace.trace3.y = []
     }
   }
 };
