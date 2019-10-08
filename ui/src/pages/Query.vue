@@ -32,7 +32,7 @@
               label="PROSES"
               size="lg"
               class="full-width" 
-              @click="streamChart()" />
+              @click="doStreamChart()" />
           </q-card-section>
         </q-card>
       </div>
@@ -57,7 +57,7 @@
 #filterQuery {
   background-image: url('~assets/suramadu_landscape.jpg');
   background-repeat: no-repeat;
-  background-color: black;
+  background-color: #040517;
   background-position-y: bottom;
 }
 </style>
@@ -149,17 +149,15 @@ export default {
     this.streamChart()
   },
   destroyed() {
+    this.mqtt.unsubscribe(`BAMS/query/${this.genUid}`)
     this.mqtt.end()
   },
   methods: {
     async streamChart() {
-      this.resetChart()
-
-      const genUid = uid()
-      const payload = await this.$axios.get(`
-        http://${process.env.BAMS_HOST_BACKEND}:9624/?node=${this.node}&?tanggal_waktu=${this.tanggal}&?uid=${genUid}
+      this.genUid = uid()
+      await this.$axios.get(`
+        http://${process.env.BAMS_HOST_BACKEND}:9624/?node=${this.node}&tanggal_waktu=${this.tanggal}&uid=${this.genUid}
       `)
-      this.uid = payload.data.id
 
       let acc1 = []
       let acc2 = []
@@ -169,7 +167,7 @@ export default {
 
       this.mqtt.on("packetreceive", async (topic) => {
         try {
-          await this.mqtt.subscribe(`BAMS/query/${this.uid}`)
+          await this.mqtt.subscribe(`BAMS/query/${this.genUid}`)
 
           if (topic.payload) {
             const string_sensor = new TextDecoder("utf-8").decode(topic.payload)
@@ -201,15 +199,21 @@ export default {
         }
       })
     },
+    doStreamChart() {
+      this.resetChart()
+      this.streamChart()
+    },
     resetChart() {
-      this.mqtt.reconnect()
-
-      this.trace.trace1.x = []
-      this.trace.trace1.y = []
-      this.trace.trace2.x = []
-      this.trace.trace2.y = []
-      this.trace.trace3.x = []
-      this.trace.trace3.y = []
+      this.mqtt.unsubscribe(`BAMS/query/${this.genUid}`, err => {
+        if (!err) {
+          this.trace.trace1.x = []
+          this.trace.trace1.y = []
+          this.trace.trace2.x = []
+          this.trace.trace2.y = []
+          this.trace.trace3.x = []
+          this.trace.trace3.y = []
+        }
+      })
     }
   }
 };
