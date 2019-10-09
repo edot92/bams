@@ -12,12 +12,12 @@ const openBucket = (query, uid) => {
         N1qlQuery.fromString(query)
     )
 
-    req.on('error', err => {
-        console.log(err)
-    })
+    // req.on('error', err => {
+    //     console.log(err)
+    // })
 
     req.on('row', row => {
-        mqtt_client.publish(`BAMS/query/${uid}`, JSON.stringify(row))
+        mqtt_client.publish(`BAMS/query/${uid}`, JSON.stringify(row), {qos: 1})
     })
 
     req.on('end', meta => {
