@@ -35,6 +35,18 @@
               @click="doStreamChart()" />
           </q-card-section>
         </q-card>
+
+        <q-card flat bordered class="q-mt-sm">
+          <q-card-section>
+            <div class="text-h6">Statistik</div>
+          </q-card-section>
+
+          <q-separator inset />
+
+          <q-card-section>
+            Total data: {{counter}}
+          </q-card-section>
+        </q-card>
       </div>
       <div class="col-12 col-md-10">
         <q-card flat bordered>
@@ -65,6 +77,7 @@
 <script>
 import { date, uid } from 'quasar'
 import MQTT from "async-mqtt"
+import doSort from 'fast-sort'
 
 export default {
   name: "HalamanQuery",
@@ -130,6 +143,7 @@ export default {
         username: process.env.BAMS_USER,
         password: process.env.BAMS_PWD
       }),
+      counter: 0
     };
   },
   mounted() {
@@ -159,11 +173,7 @@ export default {
         http://${process.env.BAMS_HOST_BACKEND}:9624/?node=${this.node}&tanggal_waktu=${this.tanggal}&uid=${this.genUid}
       `)
 
-      let acc1 = []
-      let acc2 = []
-      let acc3 = []
-      let ane1 = []
-      let waktu = []
+      let sensor_obj = []
 
       this.mqtt.on("packetreceive", async (topic) => {
         try {
@@ -173,29 +183,35 @@ export default {
             const string_sensor = new TextDecoder("utf-8").decode(topic.payload)
             const json_sensor = JSON.parse(string_sensor)
 
-            waktu.push(date.formatDate(parseInt(json_sensor.id), 'HH:mm:ss.SSS'))
-            acc1.push(json_sensor.bbta3_bams_suramadu_test.acc1)
-            acc2.push(json_sensor.bbta3_bams_suramadu_test.acc2)
-            acc3.push(json_sensor.bbta3_bams_suramadu_test.acc3)
+            // sensor_obj['waktu'].push(date.formatDate(parseInt(json_sensor.id), 'HH:mm:ss.SSS'))
+            // sensor_obj['acc1'].push(json_sensor.bbta3_bams_suramadu_test.acc1)
+            // sensor_obj['acc2'].push(json_sensor.bbta3_bams_suramadu_test.acc2)
+            // sensor_obj['acc3'].push(json_sensor.bbta3_bams_suramadu_test.acc3)
+
+            sensor_obj.push(json_sensor)
+            doSort(sensor_obj).asc(u => u.id)
+            this.counter += 1
 
             let update = {
               x: [
-                waktu,
-                waktu,
-                waktu
+                sensor_obj.map(sensor => {return date.formatDate(parseInt(sensor.id), 'HH:mm:ss.SSS')}),
+                sensor_obj.map(sensor => {return date.formatDate(parseInt(sensor.id), 'HH:mm:ss.SSS')}),
+                sensor_obj.map(sensor => {return date.formatDate(parseInt(sensor.id), 'HH:mm:ss.SSS')})
               ],
               y: [
-                acc1, 
-                acc2,
-                acc3
+                sensor_obj.map(sensor => {return sensor.bbta3_bams_suramadu_test.acc1}), 
+                sensor_obj.map(sensor => {return sensor.bbta3_bams_suramadu_test.acc2}),
+                sensor_obj.map(sensor => {return sensor.bbta3_bams_suramadu_test.acc3})
               ]
             }
 
             Plotly.restyle(this.queryElement, update)
           }
         } catch (error) {
-          console.log(error.message)
-          this.mqtt.end()
+          // console.log(error.message)
+          this.mqtt.end(() => {
+            this.mqtt.unsubscribe(`BAMS/query/${this.genUid}`)
+          })
         }
       })
     },
