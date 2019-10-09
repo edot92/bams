@@ -183,11 +183,6 @@ export default {
             const string_sensor = new TextDecoder("utf-8").decode(topic.payload)
             const json_sensor = JSON.parse(string_sensor)
 
-            // sensor_obj['waktu'].push(date.formatDate(parseInt(json_sensor.id), 'HH:mm:ss.SSS'))
-            // sensor_obj['acc1'].push(json_sensor.bbta3_bams_suramadu_test.acc1)
-            // sensor_obj['acc2'].push(json_sensor.bbta3_bams_suramadu_test.acc2)
-            // sensor_obj['acc3'].push(json_sensor.bbta3_bams_suramadu_test.acc3)
-
             sensor_obj.push(json_sensor)
             doSort(sensor_obj).asc(u => u.id)
             this.counter += 1
