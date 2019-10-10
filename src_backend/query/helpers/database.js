@@ -12,16 +12,16 @@ const openBucket = (query, uid) => {
         N1qlQuery.fromString(query)
     )
 
-    // req.on('error', err => {
-    //     console.log(err)
-    // })
+    req.on('error', () => {
+        
+    })
 
     req.on('row', row => {
-        mqtt_client.publish(`BAMS/query/${uid}`, JSON.stringify(row), {qos: 1})
+        mqtt_client.publish(`BAMS/query/${uid}`, JSON.stringify(row))
     })
 
     req.on('end', meta => {
-        console.log("Durasi:", meta.metrics.elapsedTime)
+        console.log("Durasi:", meta.metrics.elapsedTime, "\n")
     })
 }
 
