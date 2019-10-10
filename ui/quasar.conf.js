@@ -54,7 +54,11 @@ module.exports = function (ctx) {
         'QSpinnerCube',
         'QDate',
         'QPopupProxy',
-        'QSelect'
+        'QSelect',
+        'QTab',
+        'QTabs',
+        'QTabPanel',
+        'QTabPanels',
       ],
 
       directives: [
