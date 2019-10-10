@@ -11,12 +11,15 @@ router.get('/', (req, res) => {
 
   if (req.query.tanggal_waktu) {
     const pilihan_waktu = new Date(req.query.tanggal_waktu)
-    sekarang = pilihan_waktu.getTime()/1000.0
+    sekarang = pilihan_waktu.getTime()
   }
 
-  const durasi = 8.64e+7  // 1 hari dalam ms
+  const durasi = 1.08e+7  // 1 hari = 8.64e+7 ms, 3 jam = 1.08e+7 ms
   const kemarin = sekarang - durasi  // dalam ms
   const unique_id = req.query.uid ? req.query.uid : 'uid'
+
+  console.log('lama', kemarin)
+  console.log('baru', sekarang)
 
   database(`SELECT *, META().id 
             FROM bbta3_bams_suramadu_test 
