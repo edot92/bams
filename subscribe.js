@@ -79,12 +79,12 @@ const onMessage = async (topic) => {
                 payload = {
                     "ts": timestamp + waktu_ms,
                     "node": node,
-                    "acc1": acc1.length > 0 ? acc1[i] : null,
-                    "acc2": acc2.length > 0 ? acc2[i] : null,
-                    "acc3": node == "sb2" && acc3.length > 0 ? acc3[i] : null,
+                    "acc1": acc1.length > 0 ? acc1[i] : 0,
+                    "acc2": acc2.length > 0 ? acc2[i] : 0,
+                    "acc3": node == "sb2" && acc3.length > 0 ? acc3[i] : 0,
                     "arah": ane2,
                     "grup_kec": grup.grup_kecepatan(ane1),
-                    "kecepatan": ane1,
+                    "kecepatan": ane1 ? ane1 : 0,
                     "kompas": ane2 ? d2c.toCompas(ane2) : null,
                     "sudut_serang": ane3,
                 }
