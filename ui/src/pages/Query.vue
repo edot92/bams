@@ -190,7 +190,7 @@
           <q-separator inset />
 
           <q-card-section>
-            <div id="query" class="q-mt-md" style="height:200px;"></div>
+            <div id="query" class="q-mt-md" style="height:420px;"></div>
           </q-card-section>
         </q-card>
       </div>
@@ -227,6 +227,8 @@ export default {
         trace1: {
           x: [],
           y: [],
+          xaxis: 'x1',
+          yaxis: 'y1',
           fill: "tozeroy",
           type: 'scattergl',
           name: 'acc1',
@@ -237,6 +239,8 @@ export default {
         trace2: {
           x: [],
           y: [],
+          xaxis: 'x1',
+          yaxis: 'y1',
           fill: "tozeroy",
           type: 'scattergl',
           name: 'acc2',
@@ -247,11 +251,25 @@ export default {
         trace3: {
           x: [],
           y: [],
+          xaxis: 'x1',
+          yaxis: 'y1',
           fill: "tozeroy",
           type: 'scattergl',
           name: 'acc3',
           mode: 'lines',
           stackgroup: 'acc',
+          connectgaps: false
+        },
+        trace4: {
+          x: [],
+          y: [],
+          xaxis: 'x2',
+          yaxis: 'y2',
+          fill: "tozeroy",
+          type: 'scattergl',
+          name: 'kecepatan',
+          mode: 'lines',
+          stackgroup: 'kecepatan',
           connectgaps: false
         }
       },
@@ -265,8 +283,17 @@ export default {
           b: 50,
           t: 0
         },
-        yaxis: {
+        yaxis1: {
           title: 'amplitudo G'
+        },
+        yaxis2: {
+          title: 'kecepatan m/s'
+        },
+        grid: {
+          rows: 2,
+          columns: 1,
+          pattern: 'independent',
+          roworder: 'bottom to top'
         }
       },
       conf: {
@@ -314,7 +341,8 @@ export default {
       [
         this.trace.trace1, 
         this.trace.trace2, 
-        this.trace.trace3
+        this.trace.trace3,
+        this.trace.trace4
       ],
       this.layout,
       this.conf
@@ -377,12 +405,14 @@ export default {
               x: [
                 sensor_obj.map(sensor => {return sensor.id}),
                 sensor_obj.map(sensor => {return sensor.id}),
+                sensor_obj.map(sensor => {return sensor.id}),
                 sensor_obj.map(sensor => {return sensor.id})
               ],
               y: [
                 sensor_obj.map(sensor => {return sensor.acc1}), 
                 sensor_obj.map(sensor => {return sensor.acc2}),
-                sensor_obj.map(sensor => {return sensor.acc3})
+                sensor_obj.map(sensor => {return sensor.acc3}),
+                sensor_obj.map(sensor => {return sensor.ane1})
               ]
             }
 
@@ -409,6 +439,8 @@ export default {
           this.trace.trace2.y = []
           this.trace.trace3.x = []
           this.trace.trace3.y = []
+          this.trace.trace4.x = []
+          this.trace.trace4.y = []
         }
       })
     }
