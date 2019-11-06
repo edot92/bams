@@ -13,7 +13,7 @@ const openBucket = (query, uid) => {
     )
 
     req.on('error', () => {
-        
+        bucket.disconnect()
     })
 
     req.on('row', row => {
@@ -22,6 +22,7 @@ const openBucket = (query, uid) => {
 
     req.on('end', meta => {
         console.log("Durasi:", meta.metrics.elapsedTime, "\n")
+        bucket.disconnect()
     })
 }
 
