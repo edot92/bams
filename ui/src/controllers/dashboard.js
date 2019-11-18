@@ -4,12 +4,12 @@ export const processData = (payload, store) => {
     store.commit('node/nodeMutation', {node: 'sb2_acc2', value: payload.acc2 ? payload.acc2.toFixed(4) : 0})
     store.commit('node/nodeMutation', {node: 'sb2_acc3', value: payload.acc3 ? payload.acc3.toFixed(4) : 0})
     store.commit('node/nodeMutation', {node: 'sb2_ane1', value: payload.kecepatan ? payload.kecepatan.toFixed(1) : 0})
-    store.commit('node/nodeMutation', {node: 'sb2_ane2', value: payload.kompas})
+    store.commit('node/nodeMutation', {node: 'sb2_ane2', value: payload.kompas ? toCompass(payload.kompas) : ''})
   } else if (payload.node == "sb1") {
     store.commit('node/nodeMutation', {node: 'sb1_acc1', value: payload.acc1 ? payload.acc1.toFixed(4) : 0})
     store.commit('node/nodeMutation', {node: 'sb1_acc2', value: payload.acc2 ? payload.acc2.toFixed(4) : 0})
     store.commit('node/nodeMutation', {node: 'sb1_ane1', value: payload.kecepatan.toFixed(1)})
-    store.commit('node/nodeMutation', {node: 'sb1_ane2', value: payload.kompas})
+    store.commit('node/nodeMutation', {node: 'sb1_ane2', value: payload.kompas ? toCompass(payload.kompas) : ''})
   }
   else if (payload.node == 'sb3') {
     store.commit('node/nodeMutation', {node: 'sb3_acc1', value: payload.acc1 ? payload.acc1.toFixed(4) : 0})
