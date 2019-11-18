@@ -8,7 +8,7 @@
               <q-item-label header class="text-center text-blue-grey-3">sb6</q-item-label>
               <q-item>
                 <q-item-section>
-                  <q-item-label class="text-warning">Akselerometer x</q-item-label>
+                  <q-item-label class="text-warning">Akselerometer y</q-item-label>
                   <q-item-label class="text-h6">
                     {{sensor.sb6_acc1}} G
                   </q-item-label>
@@ -19,7 +19,7 @@
 
               <q-item>
                 <q-item-section>
-                  <q-item-label class="text-warning">Akselerometer y</q-item-label>
+                  <q-item-label class="text-warning">Akselerometer z</q-item-label>
                   <q-item-label class="text-h6">{{sensor.sb6_acc2}} G</q-item-label>
                 </q-item-section>
               </q-item>
@@ -79,7 +79,7 @@
               <q-item-label header class="text-center text-blue-grey-3">sb4</q-item-label>
               <q-item>
                 <q-item-section>
-                  <q-item-label class="text-warning">Akselerometer x</q-item-label>
+                  <q-item-label class="text-warning">Akselerometer y</q-item-label>
                   <q-item-label class="text-h6">{{sensor.sb4_acc1}} G</q-item-label>
                 </q-item-section>
               </q-item>
@@ -88,7 +88,7 @@
 
               <q-item>
                 <q-item-section>
-                  <q-item-label class="text-warning">Akselerometer y</q-item-label>
+                  <q-item-label class="text-warning">Akselerometer z</q-item-label>
                   <q-item-label class="text-h6">{{sensor.sb4_acc2}} G</q-item-label>
                 </q-item-section>
               </q-item>
@@ -104,7 +104,7 @@
               <q-item-label header class="text-center text-blue-grey-3">sb5</q-item-label>
               <q-item>
                 <q-item-section>
-                  <q-item-label class="text-warning">Akselerometer x</q-item-label>
+                  <q-item-label class="text-warning">Akselerometer y</q-item-label>
                   <q-item-label class="text-h6">{{sensor.sb5_acc1}} G</q-item-label>
                 </q-item-section>
               </q-item>
@@ -113,7 +113,7 @@
 
               <q-item>
                 <q-item-section>
-                  <q-item-label class="text-warning">Akselerometer y</q-item-label>
+                  <q-item-label class="text-warning">Akselerometer z</q-item-label>
                   <q-item-label class="text-h6">{{sensor.sb5_acc2}} G</q-item-label>
                 </q-item-section>
               </q-item>
@@ -125,7 +125,7 @@
               <q-item-label header class="text-center text-blue-grey-3">sb1</q-item-label>
               <q-item>
                 <q-item-section>
-                  <q-item-label class="text-warning">Akselerometer x</q-item-label>
+                  <q-item-label class="text-warning">Akselerometer y</q-item-label>
                   <q-item-label class="text-h6">{{sensor.sb1_acc1}} G</q-item-label>
                 </q-item-section>
               </q-item>
@@ -134,7 +134,7 @@
 
               <q-item>
                 <q-item-section>
-                  <q-item-label class="text-warning">Akselerometer y</q-item-label>
+                  <q-item-label class="text-warning">Akselerometer z</q-item-label>
                   <q-item-label class="text-h6">{{sensor.sb1_acc2}} G</q-item-label>
                 </q-item-section>
               </q-item>
@@ -164,7 +164,7 @@
               <q-item-label header class="text-center text-blue-grey-3">sb3</q-item-label>
               <q-item>
                 <q-item-section>
-                  <q-item-label class="text-warning">Akselerometer x</q-item-label>
+                  <q-item-label class="text-warning">Akselerometer y</q-item-label>
                   <q-item-label class="text-h6">{{sensor.sb3_acc1}} G</q-item-label>
                 </q-item-section>
               </q-item>
@@ -173,7 +173,7 @@
 
               <q-item>
                 <q-item-section>
-                  <q-item-label class="text-warning">Akselerometer y</q-item-label>
+                  <q-item-label class="text-warning">Akselerometer z</q-item-label>
                   <q-item-label class="text-h6">{{sensor.sb3_acc2}} G</q-item-label>
                 </q-item-section>
               </q-item>
