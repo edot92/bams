@@ -1,11 +1,11 @@
-var express = require('express')
-var cookieParser = require('cookie-parser')
-var logger = require('morgan')
-var cors = require('cors')
+const express = require('express')
+const cookieParser = require('cookie-parser')
+const logger = require('morgan')
+const cors = require('cors')
 
-var indexRouter = require('./routes/index')
+const indexRouter = require('./routes/index')
 
-var app = express()
+let app = express()
 
 app.use(cors())
 app.use(logger('dev'))
