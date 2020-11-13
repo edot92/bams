@@ -14,7 +14,7 @@
   "author": "Arizal Akbar Zikri",
   "license": "ISC",
   "dependencies": {
-    "async-mqtt": "^2.4.2",
-    "couchbase": "^2.6.7"
+    "async-mqtt": "^2.6.1",
+    "couchbase": "^2.6.12"
   }
 }
