@@ -38,30 +38,30 @@ const onMessage = async (topic) => {
                 const sensor_item_raw = topic.payload.toString().slice(index, index + n)
                 const sensor_item = Buffer.from(sensor_item_raw, 'hex').readFloatBE(0)
 
-                if (node == "sb2") {
+                if (node === "sb2") {
                     if (index >= 11 && index <= 803) {
                         acc1.push(sensor_item)
                     } else if (index >= 811 && index <= 1603) {
                         acc2.push(sensor_item)
                     } else if (index >= 1611 && index <= 2403) {
                         acc3.push(sensor_item)
-                    } else if (index == 2411) {
+                    } else if (index === 2411) {
                         ane1 = sensor_item
-                    } else if (index == 2419) {
+                    } else if (index === 2419) {
                         ane2 = sensor_item
-                    } else if (index == 2427) {
+                    } else if (index === 2427) {
                         ane3 = sensor_item
                     }
-                } else if (node == "sb1") {
+                } else if (node === "sb1") {
                     if (index >= 11 && index <= 803) {
                         acc1.push(sensor_item)
                     } else if (index >= 811 && index <= 1603) {
                         acc2.push(sensor_item)
-                    } else if (index == 1611) {
+                    } else if (index === 1611) {
                         ane1 = sensor_item
-                    } else if (index == 1619) {
+                    } else if (index === 1619) {
                         ane2 = sensor_item
-                    } else if (index == 1627) {
+                    } else if (index === 1627) {
                         ane3 = sensor_item
                     }
                 } else {
@@ -81,7 +81,7 @@ const onMessage = async (topic) => {
                     "node": node,
                     "acc1": acc1.length > 0 ? acc1[i] : 0,
                     "acc2": acc2.length > 0 ? acc2[i] : 0,
-                    "acc3": node == "sb2" && acc3.length > 0 ? acc3[i] : 0,
+                    "acc3": node === "sb2" && acc3.length > 0 ? acc3[i] : 0,
                     "arah": ane2,
                     "grup_kec": grup.grup_kecepatan(ane1),
                     "kecepatan": ane1 ? ane1 : 0,
