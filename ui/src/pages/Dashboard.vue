@@ -193,7 +193,7 @@ export default {
   name: "HalamanDashboard",
   data() {
     return {
-      mqtt: MQTT.connect("ws://bbta3.bppt.go.id:9623/mqtt", {
+      mqtt: MQTT.connect("ws://103.224.137.103:9623/mqtt", {
         username: process.env.BAMS_USER,
         password: process.env.BAMS_PWD,
         keepalive: 1000
