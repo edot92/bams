@@ -301,7 +301,7 @@ export default {
         responsive: true,
         displayModeBar: false
       },
-      mqtt: MQTT.connect("ws://103.224.137.103:9623/mqtt", {
+      mqtt: MQTT.connect(`ws://${process.env.BAMS_HOST_MQTT}:9623/mqtt`, {
         username: process.env.BAMS_USER,
         password: process.env.BAMS_PWD
       }),
@@ -337,10 +337,10 @@ export default {
     this.queryElement = document.getElementById('query')
 
     Plotly.plot(
-      this.queryElement, 
+      this.queryElement,
       [
-        this.trace.trace1, 
-        this.trace.trace2, 
+        this.trace.trace1,
+        this.trace.trace2,
         this.trace.trace3,
         this.trace.trace4
       ],
