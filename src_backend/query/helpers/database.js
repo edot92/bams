@@ -13,6 +13,7 @@ const openBucket = (query, uid) => {
     )
 
     req.on('error', () => {
+        console.log("Something error is happening")
         bucket.disconnect()
     })
 
