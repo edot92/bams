@@ -364,9 +364,14 @@ export default {
   methods: {
     async streamChart() {
       this.genUid = uid()
-      await this.$axios.get(`
+
+      try {
+        await this.$axios.get(`
         http://${process.env.BAMS_HOST_BACKEND}:9624/?node=${this.node}&tanggal_waktu=${this.tanggal}&uid=${this.genUid}
       `)
+      } catch (err) {
+        console.log("", err.message)
+      }
 
       let sensor_obj = []
 
