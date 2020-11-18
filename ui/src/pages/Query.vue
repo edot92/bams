@@ -11,7 +11,7 @@
             <q-select filled v-model="node" :options="opsiNode" label="Node" />
           </q-card-section>
 
-          <q-separator inset />
+          <q-separator inset=""/>
 
           <q-card-section>
             <q-input filled v-model="tanggal" mask="date" :rules="['date']" label="Tanggal">
@@ -303,7 +303,10 @@ export default {
       },
       mqtt: MQTT.connect(`ws://${process.env.BAMS_HOST_MQTT}:9623/mqtt`, {
         username: process.env.BAMS_USER,
-        password: process.env.BAMS_PWD
+        password: process.env.BAMS_PWD,
+        clientId: 'mqttjs_' + Math.random().toString(16).substr(2, 8),
+        protocolId: 'MQTT',
+        protocolVersion: 4,
       }),
       statistik: {
         min: {
@@ -350,9 +353,13 @@ export default {
 
     this.streamChart()
   },
-  destroyed() {
-    this.mqtt.unsubscribe(`BAMS/query/${this.genUid}`)
-    this.mqtt.end()
+  async destroyed() {
+    try {
+      await this.mqtt.unsubscribe(`BAMS/query/${this.genUid}`)
+      await this.mqtt.end()
+    } catch (e) {
+      console.log(e.message)
+    }
   },
   methods: {
     async streamChart() {
@@ -363,86 +370,104 @@ export default {
 
       let sensor_obj = []
 
-      this.mqtt.on("packetreceive", async (topic) => {
-        try {
-          await this.mqtt.subscribe(`BAMS/query/${this.genUid}`)
+      try {
+        await this.mqtt.subscribe(`BAMS/query/${this.genUid}`)
+      } catch (err) {
+        console.log("Subscription:", err.message)
+      }
 
-          if (topic.payload) {
-            const string_sensor = new TextDecoder("utf-8").decode(topic.payload)
-            const json_sensor = JSON.parse(string_sensor)
+      this.mqtt.on("message", async (topic, message, packet) => {
+        if (topic) {
+          const string_sensor = new TextDecoder("utf-8").decode(packet.payload)
+          const json_sensor = JSON.parse(string_sensor)
 
-            sensor_obj.push({
-              id: date.formatDate(parseInt(json_sensor.id), 'HH:mm:ss.SSS'),
-              acc1: json_sensor.bbta3_bams_suramadu_test.acc1 ? json_sensor.bbta3_bams_suramadu_test.acc1 : 0,
-              acc2: json_sensor.bbta3_bams_suramadu_test.acc2 ? json_sensor.bbta3_bams_suramadu_test.acc2 : 0,
-              acc3: json_sensor.bbta3_bams_suramadu_test.acc3 ? json_sensor.bbta3_bams_suramadu_test.acc3 : 0,
-              ane1: json_sensor.bbta3_bams_suramadu_test.kecepatan ? json_sensor.bbta3_bams_suramadu_test.kecepatan : 0
-            })
-
-            doSort(sensor_obj).asc(u => u.id)
-
-            this.statistik.min.acc1 = min(sensor_obj.map(sensor => {return sensor.acc1})).toFixed(3)
-            this.statistik.min.acc2 = min(sensor_obj.map(sensor => {return sensor.acc2})).toFixed(3)
-            this.statistik.min.acc3 = min(sensor_obj.map(sensor => {return sensor.acc3})).toFixed(3)
-            this.statistik.min.ane1 = min(sensor_obj.map(sensor => {return sensor.ane1})).toFixed(3)
-
-            this.statistik.max.acc1 = max(sensor_obj.map(sensor => {return sensor.acc1})).toFixed(3)
-            this.statistik.max.acc2 = max(sensor_obj.map(sensor => {return sensor.acc2})).toFixed(3)
-            this.statistik.max.acc3 = max(sensor_obj.map(sensor => {return sensor.acc3})).toFixed(3)
-            this.statistik.max.ane1 = max(sensor_obj.map(sensor => {return sensor.ane1})).toFixed(3)
-
-            this.statistik.mean.acc1 = mean(sensor_obj.map(sensor => {return sensor.acc1})).toFixed(3)
-            this.statistik.mean.acc2 = mean(sensor_obj.map(sensor => {return sensor.acc2})).toFixed(3)
-            this.statistik.mean.acc3 = mean(sensor_obj.map(sensor => {return sensor.acc3})).toFixed(3)
-            this.statistik.mean.ane1 = mean(sensor_obj.map(sensor => {return sensor.ane1})).toFixed(3)
-
-            this.statistik.std.acc1 = std(sensor_obj.map(sensor => {return sensor.acc1})).toFixed(3)
-            this.statistik.std.acc2 = std(sensor_obj.map(sensor => {return sensor.acc2})).toFixed(3)
-            this.statistik.std.acc3 = std(sensor_obj.map(sensor => {return sensor.acc3})).toFixed(3)
-            this.statistik.std.ane1 = std(sensor_obj.map(sensor => {return sensor.ane1})).toFixed(3)
-
-            let update = {
-              x: [
-                sensor_obj.map(sensor => {return sensor.id}),
-                sensor_obj.map(sensor => {return sensor.id}),
-                sensor_obj.map(sensor => {return sensor.id}),
-                sensor_obj.map(sensor => {return sensor.id})
-              ],
-              y: [
-                sensor_obj.map(sensor => {return sensor.acc1}), 
-                sensor_obj.map(sensor => {return sensor.acc2}),
-                sensor_obj.map(sensor => {return sensor.acc3}),
-                sensor_obj.map(sensor => {return sensor.ane1})
-              ]
-            }
-
-            Plotly.restyle(this.queryElement, update)
-          }
-        } catch (error) {
-          // console.log(error.message)
-          this.mqtt.end(() => {
-            this.mqtt.unsubscribe(`BAMS/query/${this.genUid}`)
+          sensor_obj.push({
+            id: date.formatDate(parseInt(json_sensor.id), 'HH:mm:ss.SSS'),
+            acc1: json_sensor.bbta3_bams_suramadu_test.acc1 ? json_sensor.bbta3_bams_suramadu_test.acc1 : 0,
+            acc2: json_sensor.bbta3_bams_suramadu_test.acc2 ? json_sensor.bbta3_bams_suramadu_test.acc2 : 0,
+            acc3: json_sensor.bbta3_bams_suramadu_test.acc3 ? json_sensor.bbta3_bams_suramadu_test.acc3 : 0,
+            ane1: json_sensor.bbta3_bams_suramadu_test.kecepatan ? json_sensor.bbta3_bams_suramadu_test.kecepatan : 0
           })
+
+          doSort(sensor_obj).asc(u => u.id)
+
+          this.statistik.min.acc1 = min(sensor_obj.map(sensor => {return sensor.acc1})).toFixed(3)
+          this.statistik.min.acc2 = min(sensor_obj.map(sensor => {return sensor.acc2})).toFixed(3)
+          this.statistik.min.acc3 = min(sensor_obj.map(sensor => {return sensor.acc3})).toFixed(3)
+          this.statistik.min.ane1 = min(sensor_obj.map(sensor => {return sensor.ane1})).toFixed(3)
+
+          this.statistik.max.acc1 = max(sensor_obj.map(sensor => {return sensor.acc1})).toFixed(3)
+          this.statistik.max.acc2 = max(sensor_obj.map(sensor => {return sensor.acc2})).toFixed(3)
+          this.statistik.max.acc3 = max(sensor_obj.map(sensor => {return sensor.acc3})).toFixed(3)
+          this.statistik.max.ane1 = max(sensor_obj.map(sensor => {return sensor.ane1})).toFixed(3)
+
+          this.statistik.mean.acc1 = mean(sensor_obj.map(sensor => {return sensor.acc1})).toFixed(3)
+          this.statistik.mean.acc2 = mean(sensor_obj.map(sensor => {return sensor.acc2})).toFixed(3)
+          this.statistik.mean.acc3 = mean(sensor_obj.map(sensor => {return sensor.acc3})).toFixed(3)
+          this.statistik.mean.ane1 = mean(sensor_obj.map(sensor => {return sensor.ane1})).toFixed(3)
+
+          this.statistik.std.acc1 = std(sensor_obj.map(sensor => {return sensor.acc1})).toFixed(3)
+          this.statistik.std.acc2 = std(sensor_obj.map(sensor => {return sensor.acc2})).toFixed(3)
+          this.statistik.std.acc3 = std(sensor_obj.map(sensor => {return sensor.acc3})).toFixed(3)
+          this.statistik.std.ane1 = std(sensor_obj.map(sensor => {return sensor.ane1})).toFixed(3)
+
+          let update = {
+            x: [
+              sensor_obj.map(sensor => {return sensor.id}),
+              sensor_obj.map(sensor => {return sensor.id}),
+              sensor_obj.map(sensor => {return sensor.id}),
+              sensor_obj.map(sensor => {return sensor.id})
+            ],
+            y: [
+              sensor_obj.map(sensor => {return sensor.acc1}),
+              sensor_obj.map(sensor => {return sensor.acc2}),
+              sensor_obj.map(sensor => {return sensor.acc3}),
+              sensor_obj.map(sensor => {return sensor.ane1})
+            ]
+          }
+
+          Plotly.restyle(this.queryElement, update)
         }
+      })
+
+      this.mqtt.on("close", () => {
+        console.log("disconnected")
+        this.resetChart()
+      })
+
+      this.mqtt.on("error", (err) => {
+        console.log("Mqtt Error:", err.message)
+        this.mqtt.end()
       })
     },
     doStreamChart() {
       this.resetChart()
       this.streamChart()
     },
-    resetChart() {
-      this.mqtt.unsubscribe(`BAMS/query/${this.genUid}`, err => {
-        if (!err) {
-          this.trace.trace1.x = []
-          this.trace.trace1.y = []
-          this.trace.trace2.x = []
-          this.trace.trace2.y = []
-          this.trace.trace3.x = []
-          this.trace.trace3.y = []
-          this.trace.trace4.x = []
-          this.trace.trace4.y = []
-        }
-      })
+    async resetChart() {
+      console.log("reset")
+      try {
+        await this.mqtt.unsubscribe(`BAMS/query/${this.genUid}`)
+
+        this.trace.trace1.x = []
+        this.trace.trace1.y = []
+        this.trace.trace2.x = []
+        this.trace.trace2.y = []
+        this.trace.trace3.x = []
+        this.trace.trace3.y = []
+        this.trace.trace4.x = []
+        this.trace.trace4.y = []
+      } catch (err) {
+        console.log(err.message)
+        this.trace.trace1.x = []
+        this.trace.trace1.y = []
+        this.trace.trace2.x = []
+        this.trace.trace2.y = []
+        this.trace.trace3.x = []
+        this.trace.trace3.y = []
+        this.trace.trace4.x = []
+        this.trace.trace4.y = []
+      }
     }
   }
 };
